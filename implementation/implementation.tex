@@ -1,0 +1,21 @@
+\section{Raspberry Pi hardware and network provisioning}
+
+For ease of access and cost minimisation purposes, a set of eight Raspberry Pi 5 computers was obtained to run the Kubernetes cluster on. Each device has an active cooler component installed to effectively cool the CPU (Central Processing Unit) and prevent system throttling. The usage of these devices allows for the construction of a physically compact computing cluster at low cost.
+
+A headless (sans desktop interface) version of Raspberry Pi OS (operating system) was loaded onto eight corresponding SD cards, which each device uses as primary storage. The headless version of the OS strips the resource consumption of the desktop user interface, which is not required, as most interaction with each device will be automated over the network, requiring no more complication than a remote CLI (Command-Line Interface) provides.
+\section{Ansible playbook automation}
+\section{Isolated cluster access}
+\subsection{Network airgapping}
+\subsection{ZeroTier Virtual Private Network (VPN) usage}
+\subsection{Private container image registry mirror}
+\subsection{Cloudflare Tunnel ingress point}
+
+\section{Kubernetes manifest configuration}
+\subsection{Deployments}
+\subsection{Services}
+\subsection{Ingresses}
+\subsection{Authentication}
+
+\section{Kubernetes deployment automation}
+\subsection{ArgoCD manifest synchronisation}
+\subsection{GitHub Actions platform release pipeline}

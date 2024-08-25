@@ -1,0 +1,92 @@
+\documentclass[12pt,a4paper]{uwthesis17}
+
+% Original customization work for UoW by Stephen Joe, et al. of the Maths Department
+% Tweaked for ENGEN582 reports by David Bainbridge, et al. of the Computer Science Department 
+
+% For a useful resource on other possible customisations, see:
+%   https://codeinthehole.com/guides/writing-a-thesis-in-latex/
+
+\usepackage{amsmath, amssymb, amsthm, amsxtra}
+\usepackage[numbers]{natbib}
+\usepackage{graphicx,color}
+\usepackage{subfigure}
+
+\usepackage[left=2.0cm, right=2.0cm, top=2.0cm, bottom=2.0cm, includefoot]{geometry}
+% If interested in using 'fancyhdr' add in to the above:
+% headheight=13.6pt
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Times font used for both text and mathematical chars
+\usepackage{mathptmx}
+
+\def\degree{Bachelor of Engineering (Hons)}
+\def\thesis{R\&D report (Dissertation)}
+
+\renewcommand{\figurename}{Fig.}
+
+
+\title{Integration of cloud computing paradigms for performant analysis of simulated process engineering applications}
+
+\author{
+  Caleb Archer \\
+  Supervised by: \\
+  Tim Walmsley, Mark Apperley
+}
+
+\begin{document}
+
+\pagenumbering{roman}
+
+\maketitle
+
+\setcounter{page}{2}
+
+\begin{abstract}
+
+\end{abstract}
+
+\begin{acknowledgements}
+
+\end{acknowledgements}
+
+\begin{authorship-declaration}
+
+\end{authorship-declaration}
+
+\tableofcontents
+
+\listoffigures
+
+\listoftables
+
+\newpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\chapter{Introduction}
+\label{sec:intro}
+
+\include{introduction}
+
+\chapter{Research and Development Approach}
+
+\include{research-and-development/research-and-development-approach}
+
+\chapter{Implementation}
+
+\include{implementation/implementation}
+
+\chapter{Results and Discussion}
+
+\include{results/results}
+
+\chapter{Conclusion and Future Work}
+
+
+\bibliographystyle{ieeetr} 
+\bibliography{references}
+
+\end{document}
