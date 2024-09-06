@@ -1,16 +1,69 @@
 \section{Kubernetes cluster architecture}
 
-\section{Performance analysis experiment structure}
+\section{Performance analysis experiment components}
 \subsection{Controlled environment}
+
+Difficulties were encountered obtaining consistent results when conducting ad hoc performance analysis experiments. Because of the usage of a 4G router for providing internet access to the Raspberry Pi cluster, highly variable bandwidth and latency conditions were encountered. One performance test with increasing load up to sixty requests per second might encounter exponentially increasing response times half-way during the test, while another repetition would see this occur three-quarters through the test. 
+
+Another problem caused by relying on 4G mobile network infrastructure is the upper bandwidth limitation. The 4G router in use has (in its physical position in a lab) a peak download speed of \textasciitilde50.0 Mbit/second (\textasciitilde6.25 Mbyte/second), and an upload speed of \textasciitilde20.0 Mbit/second (\textasciitilde2.5 Mbyte/second). With increasing request rates during performance tests, a bandwidth bottleneck can be encountered, with the cluster unable to serve data because of a lack of sufficient capacity. Though perfect bandwidth and latency stability cannot be expected on the internet, mobile networks are especially prone to instability, and inhibit the ability to replicate a standard environment for applications deployed to ``the cloud'', i.e. a datacentre with high bandwidth capacity. This is exarcerbated by the usage of Cloudflare Tunnel on the cluster to enable external access, which provides a lower bound on maximum bandwidth than if the router was directly accessible via the internet.
+
+To conduct consistent load-tests that provide a higher signal to noise ratio, a stable cloud infrastructure environment was simulated. Load-tests were performed from the ingress node, sending requests to the Kubernetes control node over the LAN (local area network) provided by the network switch. An Auckland-based data centre environment will be replicated, with an expected latency of 5 miiliseconds from an in-country client device to the data centre. This latency will be simulated via the \verb|tc| Linux command as depicted in Listings \ref{lst:pre-test-latency} and \ref{lst:post-test-latency}. The \verb|tc| command allows the traffic travelling via a particular network interface to have artificial constraints added, such as with bandwidth and latency. Prior to every test, 5 milliseconds of latency was added, and then removed after each test.
+
+\begin{center}
+    \begin{minipage}{\linewidth}
+    \centering
+    \begin{lstlisting}[language=bash, caption={Pre-test latency simulation command},label=lst:pre-test-latency]
+    
+    sudo tc qdisc add dev eth0 root netem delay 5ms
+    
+    \end{lstlisting}
+    \end{minipage}
+\end{center}
+
+\begin{center}
+    \begin{minipage}{\linewidth}
+    \centering
+    \begin{lstlisting}[language=bash, caption={Post-test latency simulation teardown},label=lst:post-test-latency]
+    
+        sudo tc qdisc del dev eth0 root netem
+    
+    \end{lstlisting}
+    \end{minipage}
+\end{center}
+
+% ^^ fix stupid centreing and spacing later ^^
+
+% Collect data to demonstrate the instability of external access %
+
+% Show maximum LAN bandwidth results
+
+% Show results of added latency perhaps.
+
 \subsection{Controlling variables}
+
+As with any valid experiment, any one load-test carried out assesses the performance differences observed after modifying one variable. For example, the number of replicas for a Kubernetes deployment, in one set of experiments, have been varied, while all other configuration fields have been kept the same. In some experiments, an entire block of configuration (such as the presence of a \verb|HorizontalPodAutoscaler| in a \verb|Deployment|) have been independently assessed, and everything else controlled. 
+
 \subsection{Preliminary performance modelling}
 \subsection{Empirical comparison}
 \subsubsection{Grafana k6 load-testing}
-\subsubsection{Grafana system monitoring}
+
+Grafana k6\footnote{Grafana k6: https://k6.io/}, or k6, is a load-testing tool for assessing the performance of local and remote software systems. It is a script-based tool, where developers use JavaScript to define their testing logic, scenarios, and metrics, and then these tests are run using a Go-based custom JavaScript runtime to minimise test performance overheads.
+
+k6 tests are built around the concept of a ``Virtual User'' or VU, which represents one unit of work that carries out one iteration of the defined test logic. The test logic may carry out a simple action such as making a request to a website at some URL, and waiting for the response. During a test, k6 displays the number of iterations being completed by VUs, as well as the number of VUs that are stalled in waiting for their respective request responses. VUs are run concurrently within a runtime thread pool, with each VU requiring an allocation of memory depending on the work each test iteration does.
+
+Test scenarios can be defined in a number of ways. One test may utilise a ``constant arrival rate'' executor, which attempts to send a fixed number of test iterations for every unit of time (seconds, minutes, etc.) using the available pool of VUs. Another could use a ``ramping arrival rate'' executor, which can be configured to start an increasing, decreasing, or even constant number of test iterations per unit of time, at different stages of the test.
+
+There are several other scenario executors that can be used within k6, but these have the possibility of skewing test results. For example, the ``constant VUs'' executor tries to use a set number of VUs to launch as ``as many iterations as possible''. However, if the executor detects that the time required to complete an iteration increases beyond a certain limit (i.e. the request response time is increasing), it will decrease the iteration start rate, and thereby reduce the number of requests being started. When the goal is to test how a system responds under specific conditions, this style of execution is unfavourable, given that it will dynamically change the test conditions. As such, the executors utilised in testing the Ahuora Digital Platform have been limited to the constant and ramping arrival rate exectors.
+
+\subsubsection{Active test client and system monitoring}
+
+As performance tests were carried out, the Grafana monitoring tool was used to gain insight into how the tests were impacting the different parts of the cluster, including at the container level, node level, and the overall cluster. Apart from this, it was important to ensure that the intended loads could actually be generated by the client sending the requests to the system. If the client encounters CPU or memory limits when attempting to generate load, then test results will be affected by the performance of the client, rather than the system, and prevent any meaningful insights being obtained. To ensure that client-side test throttling is not taking place, the \verb|htop| Linux command was used to observe client CPU and memory usage. The thresholds of 90\% CPU usage and 80\% memory usage were chosen as causes for concern for test validity.
+
 \subsection{Key metrics}
 \subsubsection{Response time}
 \subsubsection{Throughput}
 \subsubsection{Quantile comparison}
+\subsection{Secondary metrics}
 
 \section{Performance analysis experiments}
 \subsection{Benchmark}
