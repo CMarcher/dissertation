@@ -100,7 +100,7 @@ Flat load profiles will have initial ramp-up and ramp-down periods between their
 
 \subsubsection{Average-load testing}
 
-This load profile will test the system against a flat load profile, or a fixed number of requests per second. The intent is to assess how the system performs under what can be called an ``average'' load. The Ahuora Digital Platform is not publicly available as of writing, and so the average load will have to be assumed at some value, as we do not have actual usage data that can be used to inform an appropriate average load value.
+This load profile will test the system against a flat load profile, or a fixed number of requests per second. The intent is to assess how the system performs under what can be called an ``average'' load. The Ahuora Digital Platform is not publicly available as of writing, and so the average load will have to be assumed at some value, as we do not have actual usage data that can be used to inform an appropriate average load value. Tests will last ten minutes.
 
 \begin{table}[h]
     \centering
@@ -116,7 +116,7 @@ This load profile will test the system against a flat load profile, or a fixed n
 
 \subsubsection{Stress testing}
 
-The stress testing load profile will assess the system at an ``above-average'' load, which will be set at 200\% of the previously outlined average load values. The goal is to determine what performance degradation (if any) happens when the system experiences load that is still within an expected range.
+The stress testing load profile will assess the system at an ``above-average'' load, which will be set at 200\% of the previously outlined average load values (Table \ref{table:test-average-load-plan}). The goal is to determine what performance degradation (if any) happens when the system experiences load that is still within an expected range.
 
 \begin{table}[h]
     \centering
@@ -158,13 +158,25 @@ Spike tests will test how the system responds to a rapidly increasing, very high
         UOR & 80 \\ \hline
         FS & 8 \\ \hline
     \end{tabularx}
-    \caption{Soak load values for API endpoints}
+    \caption{Spike load values for API endpoints}
     \label{table:test-spike-load-plan}
 \end{table}
 
 \subsubsection{Breakpoint testing}
 
 These load profiles will linearly increase the number of requests made against the system per second to some extremely high threshold. This will allow the ``breakpoint'' of the system to be identified, or the point at which system performance either rapidly deterioates or completely collapses. These tests will run for ten minutes.
+
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|}
+        \hline
+        \textbf{Test type} & \textbf{Load (requests/second)}  \\ \hline
+        UOR & 200 \\ \hline
+        FS & 32 \\ \hline
+    \end{tabularx}
+    \caption{Breakpoint load values for API endpoints}
+    \label{table:test-breakpoint-load-plan}
+\end{table}
 
 \subsection{Resource allocation}
 \subsection{Horizontal scaling policies}
