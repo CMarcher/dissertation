@@ -77,7 +77,7 @@ This local deployment is set up with Docker Compose\footnote{Docker Compose: htt
 
 \subsection{Test scenarios}
 
-Various load profiles are used to assess system performance and dynamics. This allows for observation of whether the system is appropriately tuned or capable of responding to both flat and variable load profiles, as well as handling extended load periods. Two core API endpoints available on the Django API server are used for each test scenario, as described in Table \ref{table:test-api-endpoints}.
+Various load profiles are used to assess system performance and dynamics. This allows for observation of whether the system is appropriately tuned or capable of responding to both flat and variable load profiles, as well as handling extended load periods. Two core API endpoints available on the Django API server are used for each test scenario, as described in Table \ref{table:test-api-endpoints}. Software versions used are: Django API 0.0.17, IDAES worker 0.0.10 and Postgres 16.4.
 
 \begin{table}[h]
     \centering
@@ -97,6 +97,28 @@ The unit operation retrieval endpoint interacts with the Django API server and t
 % Perhaps get a smoke test done at 1 request per second for both endpoints.
 
 Flat load profiles will have initial ramp-up and ramp-down periods between their core profiles to provide corresponding system warm-up and cooldown periods. These periods will be short, fixed at 5\% of the total test duration each.
+
+To avoid individual tests skewing the overall results, each test scenario will be run three times, with the resulting data averaged across the three trials. This will exclude soak tests, which will run for a longer period with the intent of observing consistent long-term trends.
+
+\subsubsection{Pre-trial scenario set up}
+
+Though these experiments do not interact with nor test the Ahuora Digital Platform's user interface, a React-based front-end, it is still necessary to construct a solvable flowsheet that can be used to retrieve unit operations from, and make solve requests. This flowsheet needs to be consistent between test scenarios and their trials. At the same time, the flowsheet needs to be deleted after usage during a trial to avoid an excessive and duplicated presence for users of the live platform when viewing available flowsheets. As such, it was necessary to construct pre and post-trial flowsheet set up and teardown scripts.
+
+These Node.js-based scripts use the existing Django API to create (and delete) a flowsheet, unit operation, and all their corresponding properties and elements of configuration. The flowsheet constructed consists of a single pump with two material streams, one serving as input to the pump, and another as output. The specific steps involved in creating the flowsheet are:
+
+\begin{enumerate}[itemsep=0pt]
+    \item Create flowsheet object
+    \item Add water compound to flowsheet
+    \item Add Helmholtz Water property package to flowsheet
+    \item Create pump unit operation
+    \item Set pump efficiency to 0.5
+    \item Set pump outlet pressure to 200
+    \item Set input stream temperature to 80
+    \item Set input stream pressure to 100
+    \item Set input stream molar flow to 1000
+    \item Set input stream vapor fraction to 0
+    \item Set input stream water compound amount to 1
+\end{enumerate}
 
 \subsubsection{Average-load testing}
 
@@ -178,8 +200,88 @@ These load profiles will linearly increase the number of requests made against t
     \label{table:test-breakpoint-load-plan}
 \end{table}
 
-\subsection{Resource allocation}
 \subsection{Horizontal scaling policies}
-\subsubsection{Minimum replicas}
+
+Within Kubernetes, an operator can define the scaling policies associated with a specific workload. Scaling policies define how many replicas of a workload should be running, based on either static values, or dynamic metrics such as CPU, network or memory usage. As a workload operates, the cluster control plane will monitor the resource utilisation of the workload, and perform scaling operations (both scaling up and down) based on the corresponding scaling policies. The following experiments will assess different scaling policy elements and their impact on the selected key metrics.
+
+\subsubsection{Replica count}
+
+On a Kubernetes Deployment object, the ``replicas'' field statically defines the number of pod replicas that should be running on the cluster.
+
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|}
+        \hline
+        \textbf{Test iteration} & \textbf{Django replicas}  \\ \hline
+        1 & 1 \\ \hline
+        2 & 2 \\ \hline
+        3 & 4 \\ \hline
+        4 & 8 \\ \hline
+    \end{tabularx}
+    \caption{Parameters for UOR replica count tests}
+    \label{table:test-replica-count-uor}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|X|}
+        \hline
+        \textbf{Test iteration} & \textbf{Django replicas} & \textbf{IDAES replicas}  \\ \hline
+        1 & 1 & 1 \\ \hline
+        2 & 2 & 2 \\ \hline
+        3 & 4 & 4 \\ \hline
+        4 & 8 & 8 \\ \hline
+        5 & 1 & 8 \\ \hline
+        6 & 2 & 8 \\ \hline
+        7 & 4 & 8 \\ \hline
+        8 & 8 & 8 \\ \hline
+    \end{tabularx}
+    \caption{Parameters for FS replica count tests}
+    \label{table:test-replica-count-fs}
+\end{table}
+
+\subsubsection{Minimum replica count}
+
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|}
+        \hline
+        \textbf{Test iteration} & \textbf{Minimum replica count (Django)}  \\ \hline
+        1 & 1 \\ \hline
+        2 & 2 \\ \hline
+        3 & 4 \\ \hline
+    \end{tabularx}
+    \caption{Parameters for UOR minimum replica count tests}
+    \label{table:test-min-replica-count-uor}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|}
+        \hline
+        \textbf{Test iteration} & \textbf{Minimum replica count (Django and IDAES)}  \\ \hline
+        1 & 1 \\ \hline
+        2 & 2 \\ \hline
+        3 & 4 \\ \hline
+    \end{tabularx}
+    \caption{Parameters for FS minimum replica count tests}
+    \label{table:test-min-replica-count-fs}
+\end{table}
+
+\subsubsection{Resource allocation}
+
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|}
+        \hline
+        \textbf{Test iteration} & \textbf{CPU allocation}  \\ \hline
+        1 & 1 \\ \hline
+        2 & 2 \\ \hline
+        3 & 4 \\ \hline
+    \end{tabularx}
+    \caption{Parameters for UOR minimum replica count tests}
+    \label{table:test-min-replica-count-uor}
+\end{table}
+
 \subsubsection{Target resource utilisation}
-\subsubsection{Stabilisation window}
+\subsubsection{Scale-up pod addition limits}
