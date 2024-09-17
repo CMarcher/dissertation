@@ -98,7 +98,7 @@ The unit operation retrieval endpoint interacts with the Django API server and t
 
 Flat load profiles will have initial ramp-up and ramp-down periods between their core profiles to provide corresponding system warm-up and cooldown periods. These periods will be short, fixed at 5\% of the total test duration each.
 
-To avoid individual tests skewing the overall results, each test scenario will be run three times, with the resulting data averaged across the three trials. This will exclude soak tests, which will run for a longer period with the intent of observing consistent long-term trends.
+To avoid individual tests skewing the overall results, each test scenario will be run three times, with the resulting data averaged across the three trials.
 
 \subsubsection{Pre-trial scenario set up}
 
@@ -152,22 +152,6 @@ The stress testing load profile will assess the system at an ``above-average'' l
     \label{table:test-stress-load-plan}
 \end{table}
 
-\subsubsection{Soak testing}
-
-This load profile will generate the same per-second load as the average load tests, but for an extended period of time. These tests will allow for gradual system degradation to be detected better. Soak tests will last sixty minutes.
-
-\begin{table}[h]
-    \centering
-    \begin{tabularx}{\textwidth}{|X|X|}
-        \hline
-        \textbf{Test type} & \textbf{Load (requests/second)}  \\ \hline
-        UOR & 15 \\ \hline
-        FS & 1 \\ \hline
-    \end{tabularx}
-    \caption{Soak load values for API endpoints}
-    \label{table:test-soak-load-plan}
-\end{table}
-
 \subsubsection{Spike testing}
 
 Spike tests will test how the system responds to a rapidly increasing, very high load (that may be overwhelming) that then rapidly decreases. These tests will last for four minutes.
@@ -206,7 +190,9 @@ Within Kubernetes, an operator can define the scaling policies associated with a
 
 \subsubsection{Replica count}
 
-On a Kubernetes Deployment object, the ``replicas'' field statically defines the number of pod replicas that should be running on the cluster.
+On a Kubernetes Deployment object, the ``replicas'' field statically defines the number of pod replicas that should be running on the cluster. This test will assess how the number of active replicas influences system throughput and response time.
+
+\noindent\textbf{Load profiles used:} Average, stress, spike, breakpoint
 
 \begin{table}[h]
     \centering
@@ -242,6 +228,10 @@ On a Kubernetes Deployment object, the ``replicas'' field statically defines the
 
 \subsubsection{Minimum replica count}
 
+The minimum replica count is a property of the \textit{HorizontalPodAutoscaler}, which defines the scaling policies to be adhered to by the control plane's autoscaling controller. The minimum replica count, as plainly indicated, sets a requirement for the smallest number of pod replicas that are allowed to run, regardless of whether the target resource utilisation threshold is being met.
+
+\noindent\textbf{Load profiles used:} Spike, breakpoint
+
 \begin{table}[h]
     \centering
     \begin{tabularx}{\textwidth}{|X|X|}
@@ -270,18 +260,43 @@ On a Kubernetes Deployment object, the ``replicas'' field statically defines the
 
 \subsubsection{Resource allocation}
 
+CPU and memory resource requests are set on deployment manifests for containers within a pod. In this context, each pod has one container. These resource requests indicate to the cluster the minimum amount of CPU time  that needs to be made available to the pod. The pod may not use all of its resource request, but this allows the cluster pod scheduler to decide how to allocate unscheduled pods across the CPU resource pool available. The unit for a CPU resource request is the millicore, which is one thousandth of one physical CPU core.
+
+\textbf{Load profiles used:} Spike, breakpoint
+
 \begin{table}[h]
     \centering
     \begin{tabularx}{\textwidth}{|X|X|}
         \hline
-        \textbf{Test iteration} & \textbf{CPU allocation}  \\ \hline
-        1 & 1 \\ \hline
-        2 & 2 \\ \hline
-        3 & 4 \\ \hline
+        \textbf{Test iteration} & \textbf{CPU allocation (millicores)}  \\ \hline
+        1 & 500 \\ \hline
+        2 & 1000 \\ \hline
+        3 & 2000 \\ \hline
     \end{tabularx}
-    \caption{Parameters for UOR minimum replica count tests}
-    \label{table:test-min-replica-count-uor}
+    \caption{Parameters for resource allocation tests (UOR and FS)}
+    \label{table:test-resource-allocation}
 \end{table}
 
 \subsubsection{Target resource utilisation}
+
+This metric is used by the cluster to make scaling decisions. Using the CPU resource request usage across all pod replicas within a deployment, an average utilisation percentage is taken, and compared with the target utilisation percentage defined in the corresponding \textit{HorizontalPodAutoscaler} scaling policy. If the average utilisation exceeds the target by a certain threshold, then more pods are scheduled and run to achieve the target. Likewise, utilisation falling below the target by the same threshold will result in pods being removed.
+
+\noindent\textbf{Load profiles used:} Spike, breakpoint
+
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{\textwidth}{|X|X|}
+        \hline
+        \textbf{Test iteration} & \textbf{Average CPU utilisation target (\%)}  \\ \hline
+        1 & 25 \\ \hline
+        2 & 50 \\ \hline
+        3 & 75 \\ \hline
+        4 & 90 \\ \hline
+    \end{tabularx}
+    \caption{Parameters for resource utilisation tests (UOR and FS)}
+    \label{table:test-resource-utilisation}
+\end{table}
+
 \subsubsection{Scale-up pod addition limits}
+
+\noindent\textbf{Load profiles used:} Spike, breakpoint
