@@ -6,8 +6,13 @@
 % For a useful resource on other possible customisations, see:
 %   https://codeinthehole.com/guides/writing-a-thesis-in-latex/
 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Times font used for both text and mathematical chars
+\usepackage{mathptmx}
+
 \usepackage{amsmath, amssymb, amsthm, amsxtra}
-\usepackage[numbers]{natbib}
 \usepackage{graphicx,color}
 \usepackage{subfigure}
 \usepackage{enumitem}
@@ -16,18 +21,26 @@
 \usepackage{caption}
 \usepackage{float}
 \usepackage{tabularx}
+\usepackage[
+backend=biber,
+style=ieee,
+sorting=none,
+mincitenames=1,
+maxcitenames=1,
+url=false,
+eprint=false,
+doi=false,
+isbn=false
+]{biblatex}
+\addbibresource{references.bib}
+\AtEveryBibitem{\clearlist{language}}
+\AtEveryBibitem{\clearfield{note}}
 
 \lstset{basicstyle=\ttfamily}
 
 \usepackage[left=2.0cm, right=2.0cm, top=2.0cm, bottom=2.0cm, includefoot]{geometry}
 % If interested in using 'fancyhdr' add in to the above:
 % headheight=13.6pt
-
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-
-% Times font used for both text and mathematical chars
-\usepackage{mathptmx}
 
 \def\degree{Bachelor of Engineering (Hons)}
 \def\thesis{R\&D report (Dissertation)}
@@ -40,7 +53,7 @@
 \author{
   Caleb Archer \\
   Supervised by: \\
-  Tim Walmsley, Mark Apperley
+  Mark Apperley, Tim Walmsley
 }
 
 \begin{document}
@@ -96,7 +109,6 @@
 \chapter{Conclusion and Future Work}
 
 
-\bibliographystyle{ieeetr} 
-\bibliography{references}
+\printbibliography
 
 \end{document}
