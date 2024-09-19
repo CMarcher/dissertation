@@ -90,7 +90,7 @@ These benchmarks will run on the ingress node, which does not participate in the
 
 \subsection{Experimental environment}
 
-Load tests will be run from the ingress node against the cluster, with traffic directed at the control node serving as the public entrypoint.
+Load tests will be run from the ingress node against the cluster, with traffic directed at the control node serving as the public entrypoint. All tested software components will be run on the K3s Kubernetes cluster.
 
 \subsection{Test scenarios}
 
@@ -187,7 +187,7 @@ Spike tests will test how the system responds to a rapidly increasing, very high
 
 \subsubsection{Breakpoint testing}
 
-These load profiles will linearly increase the number of requests made against the system per second to some extremely high threshold. This will allow the ``breakpoint'' of the system to be identified, or the point at which system performance either rapidly deterioates or completely collapses. These tests will run for ten minutes.
+These load profiles will linearly increase the number of requests made against the system per second to some extremely high threshold. This will allow the ``breakpoint'' of the system to be identified, or the point at which system performance either rapidly deterioates or completely collapses. These tests will run for a maximum of ten minutes. To prevent tests for running far beyond the breakpoint unnecessarily, a threshold will be defined for each breakpoint load profile variant, which will mandate that the number of virtual users (VUs) does not exceed 100. If this threshold is exceeded, then the test will cease.
 
 \begin{table}[h]
     \centering
