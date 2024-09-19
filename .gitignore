@@ -8,3 +8,5 @@
 *.lot
 *.toc
 *.synctex.gz
+main.bcf
+main.run.xml
