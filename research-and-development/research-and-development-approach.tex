@@ -53,7 +53,7 @@ k6 tests are built around the concept of a ``Virtual User'' or VU, which represe
 
 Test scenarios can be defined in a number of ways. One test may utilise a ``constant arrival rate'' executor, which attempts to send a fixed number of test iterations for every unit of time (seconds, minutes, etc.) using the available pool of VUs. Another could use a ``ramping arrival rate'' executor, which can be configured to start an increasing, decreasing, or even constant number of test iterations per unit of time, at different stages of the test.
 
-There are several other scenario executors that can be used within k6, but these have the possibility of skewing test results. For example, the ``constant VUs'' executor tries to use a set number of VUs to launch as ``as many iterations as possible''. However, if the executor detects that the time required to complete an iteration increases beyond a certain limit (i.e. the request response time is increasing), it will decrease the iteration start rate, and thereby reduce the number of requests being started. When the goal is to test how a system responds under specific conditions, this style of execution is unfavourable, given that it will dynamically change the test conditions. As such, the executors utilised in testing the Ahuora Digital Platform have been limited to the constant and ramping arrival rate exectors.
+There are several other scenario executors that can be used within k6, but these have the possibility of skewing test results. For example, the ``constant VUs'' executor tries to use a set number of VUs to launch as ``as many iterations as possible''. However, if the executor detects that the time required to complete an iteration increases beyond a certain limit (i.e. the request response time is increasing), it will decrease the iteration start rate, and thereby reduce the number of requests being started. When the goal is to test how a system responds under specific conditions, this style of execution is unfavourable, given that it will dynamically change the test conditions. As such, the executor utilised in testing the Ahuora Digital Platform has been limited to the ramping arrival rate executor, which can model both flat and variable load profiles.
 
 \subsubsection{Active test client and system monitoring}
 
@@ -79,7 +79,7 @@ Along with speed-oriented metrics like the response time and throughput, it is c
 
 \subsection{Secondary metrics}
 
-Both CPU and memory usage will provide additional insight into system performance influences. For example, the observation of high consumption of allocated CPU time within a pod at the same time as request rate instability would possibly indicate the pod is reaching computation limits. These metrics will be recorded at the container level as well as the node level. 
+Both CPU and memory usage will provide additional insight into system performance influences. For example, the observation of high consumption of allocated CPU time within a pod at the same time as request rate instability would possibly indicate the pod is reaching computation limits. These metrics will be recorded at the container level as well as at the node level. 
 
 \section{Performance analysis experiments}
 \subsection{Benchmark environment}
@@ -90,7 +90,9 @@ These benchmarks will run on the ingress node, which does not participate in the
 
 \subsection{Experimental environment}
 
-Load tests will be run from the ingress node against the cluster, with traffic directed at the control node serving as the public entrypoint. All tested software components will be run on the K3s Kubernetes cluster.
+Load tests will be run from the ingress node against the cluster, with traffic directed at the control node serving as the public entrypoint. All tested software components will be run on the K3s Kubernetes cluster. The core software components interacted with are the same as in the benchmark environment, though the Kubernetes environment introduces a central proxy layer through which all API traffic travels through, and is authorised by.
+
+% Show a diagram of the flow of data for both the experimental and benchmark environment %
 
 \subsection{Test scenarios}
 
@@ -137,69 +139,82 @@ These Node.js-based scripts use the existing Django API to create (and delete) a
     \item Set input stream water compound amount to 1
 \end{enumerate}
 
+\subsubsection{Post-trial metrics collection}
+
+For tests remotely run against the cluster, metrics internally generated and uploaded to Grafana Cloud by the cluster are pulled by a custom k6 test summary generator, obtaining metrics for container CPU, memory, disk and network usage, as well as general cluster metrics reporting pod and container counts. This data is used in conjunction with test results to find associations between test variables and develop a better model of system performance influences.
+
+\subsubsection{Base k6 load test configuration}
+
+\begin{tabularx}{\textwidth}{|p{0.26\textwidth}|p{0.06\textwidth}|X|}
+    \hline
+    \textbf{k6 option} & \textbf{Value} & \textbf{Usage explanation}  \\ \hline
+    insecureSkipTLSVerify & true & The TLS certificate presented to clients by the cluster is self-signed. External traffic from the internet accesses the platform via Cloudflare, which presents its own trusted TLS certificate. Since experimental load tests will be conducted over the local network, the k6 HTTP client by default will fail because of TLS verification failure. The IP address locally associated with the domain on the ingress node can be trusted. \\ \hline
+    noConnectionReuse & true & Every newly started request should simulate the action of an independent user, and therefore consume the expected resources in establishing a new connection to the platform backend.  \\ \hline
+    discardResponseBodies & true & Since the response body is not being used in test logic, memory consumption by the testing client can be reduced and thereby reduce any undue influence the testing client may have on test results. \\ \hline
+    maxRedirects & 0 & It is expected that all requests made will result in a direct response. Any HTTP redirects may indicate, in the case of cluster-bound requests, that the test client is not authenticated and has been redirected to a sign-in page. In any case, redirects would distort test results. Redirects should cause a request iteration to report failure. \\ \hline
+
+    \caption{Base options set for k6 load tests}
+    \label{table:k6-load-test-options}
+\end{tabularx}
+    
+
 \subsubsection{Average-load testing}
 
 This load profile will test the system against a flat load profile, or a fixed number of requests per second. The intent is to assess how the system performs under what can be called an ``average'' load. The Ahuora Digital Platform is not publicly available as of writing, and so the average load will have to be assumed at some value, as we do not have actual usage data that can be used to inform an appropriate average load value. Tests will last ten minutes.
 
-\begin{table}[h]
-    \centering
-    \begin{tabularx}{\textwidth}{|X|X|}
-        \hline
-        \textbf{Test type} & \textbf{Load (requests/second)}  \\ \hline
-        UOR & 15 \\ \hline
-        FS & 1 \\ \hline
-    \end{tabularx}
+
+\begin{tabularx}{\textwidth}{|X|X|}
+    \hline
+    \textbf{Test type} & \textbf{Load (requests/second)}  \\ \hline
+    UOR & 15 \\ \hline
+    FS & 1 \\ \hline
+
     \caption{Average load values for API endpoints}
     \label{table:test-average-load-plan}
-\end{table}
+\end{tabularx}
 
 \subsubsection{Stress testing}
 
 The stress testing load profile will assess the system at an ``above-average'' load, which will be set at 200\% of the previously outlined average load values (Table \ref{table:test-average-load-plan}). The goal is to determine what performance degradation (if any) happens when the system experiences load that is still within an expected range.
 
-\begin{table}[h]
-    \centering
-    \begin{tabularx}{\textwidth}{|X|X|}
-        \hline
-        \textbf{Test type} & \textbf{Load (requests/second)}  \\ \hline
-        UOR & 30 \\ \hline
-        FS & 2 \\ \hline
-    \end{tabularx}
+\begin{tabularx}{\textwidth}{|X|X|}
+    \hline
+    \textbf{Test type} & \textbf{Load (requests/second)}  \\ \hline
+    UOR & 30 \\ \hline
+    FS & 2 \\ \hline
+
     \caption{Stress test load values for API endpoints}
     \label{table:test-stress-load-plan}
-\end{table}
+\end{tabularx}
+    
 
 \subsubsection{Spike testing}
 
 Spike tests will test how the system responds to a rapidly increasing, very high load (that may be overwhelming) that then rapidly decreases. These tests will last for four minutes.
 
-\begin{table}[h]
-    \centering
-    \begin{tabularx}{\textwidth}{|X|X|}
-        \hline
-        \textbf{Test type} & \textbf{Load (requests/second)}  \\ \hline
-        UOR & 80 \\ \hline
-        FS & 8 \\ \hline
-    \end{tabularx}
+\begin{tabularx}{\textwidth}{|X|X|}
+    \hline
+    \textbf{Test type} & \textbf{Load (requests/second)}  \\ \hline
+    UOR & 80 \\ \hline
+    FS & 8 \\ \hline
+
     \caption{Spike load values for API endpoints}
     \label{table:test-spike-load-plan}
-\end{table}
+\end{tabularx}
 
 \subsubsection{Breakpoint testing}
 
 These load profiles will linearly increase the number of requests made against the system per second to some extremely high threshold. This will allow the ``breakpoint'' of the system to be identified, or the point at which system performance either rapidly deterioates or completely collapses. These tests will run for a maximum of ten minutes. To prevent tests for running far beyond the breakpoint unnecessarily, a threshold will be defined for each breakpoint load profile variant, which will mandate that the number of virtual users (VUs) does not exceed 100. If this threshold is exceeded, then the test will cease.
 
-\begin{table}[h]
-    \centering
-    \begin{tabularx}{\textwidth}{|X|X|}
-        \hline
-        \textbf{Test type} & \textbf{Load (requests/second)}  \\ \hline
-        UOR & 200 \\ \hline
-        FS & 32 \\ \hline
-    \end{tabularx}
+\begin{tabularx}{\textwidth}{|X|X|}
+    \hline
+    \textbf{Test type} & \textbf{Load (requests/second)}  \\ \hline
+    UOR & 200 \\ \hline
+    FS & 32 \\ \hline
+
     \caption{Breakpoint load values for API endpoints}
     \label{table:test-breakpoint-load-plan}
-\end{table}
+\end{tabularx}
 
 \subsection{Horizontal scaling policies}
 
@@ -211,37 +226,33 @@ On a Kubernetes Deployment object, the ``replicas'' field statically defines the
 
 \noindent\textbf{Load profiles used:} Average, stress, spike, breakpoint
 
-\begin{table}[h]
-    \centering
-    \begin{tabularx}{\textwidth}{|X|X|}
-        \hline
-        \textbf{Test iteration} & \textbf{Django replicas}  \\ \hline
-        1 & 1 \\ \hline
-        2 & 2 \\ \hline
-        3 & 4 \\ \hline
-        4 & 8 \\ \hline
-    \end{tabularx}
+\begin{tabularx}{\textwidth}{|X|X|}
+    \hline
+    \textbf{Test iteration} & \textbf{Django replicas}  \\ \hline
+    1 & 1 \\ \hline
+    2 & 2 \\ \hline
+    3 & 4 \\ \hline
+    4 & 8 \\ \hline
+
     \caption{Parameters for UOR replica count tests}
     \label{table:test-replica-count-uor}
-\end{table}
+\end{tabularx}
 
-\begin{table}[h]
-    \centering
-    \begin{tabularx}{\textwidth}{|X|X|X|}
-        \hline
-        \textbf{Test iteration} & \textbf{Django replicas} & \textbf{IDAES replicas}  \\ \hline
-        1 & 1 & 1 \\ \hline
-        2 & 2 & 2 \\ \hline
-        3 & 4 & 4 \\ \hline
-        4 & 8 & 8 \\ \hline
-        5 & 1 & 8 \\ \hline
-        6 & 2 & 8 \\ \hline
-        7 & 4 & 8 \\ \hline
-        8 & 8 & 8 \\ \hline
-    \end{tabularx}
+\begin{tabularx}{\textwidth}{|X|X|X|}
+    \hline
+    \textbf{Test iteration} & \textbf{Django replicas} & \textbf{IDAES replicas}  \\ \hline
+    1 & 1 & 1 \\ \hline
+    2 & 2 & 2 \\ \hline
+    3 & 4 & 4 \\ \hline
+    4 & 8 & 8 \\ \hline
+    5 & 1 & 8 \\ \hline
+    6 & 2 & 8 \\ \hline
+    7 & 4 & 8 \\ \hline
+    8 & 8 & 8 \\ \hline
+
     \caption{Parameters for FS replica count tests}
     \label{table:test-replica-count-fs}
-\end{table}
+\end{tabularx}
 
 \subsubsection{Minimum replica count}
 
@@ -249,50 +260,44 @@ The minimum replica count is a property of the \textit{HorizontalPodAutoscaler},
 
 \noindent\textbf{Load profiles used:} Spike, breakpoint
 
-\begin{table}[h]
-    \centering
-    \begin{tabularx}{\textwidth}{|X|X|}
-        \hline
-        \textbf{Test iteration} & \textbf{Minimum replica count (Django)}  \\ \hline
-        1 & 1 \\ \hline
-        2 & 2 \\ \hline
-        3 & 4 \\ \hline
-    \end{tabularx}
+\begin{tabularx}{\textwidth}{|X|X|}
+    \hline
+    \textbf{Test iteration} & \textbf{Minimum replica count (Django)}  \\ \hline
+    1 & 1 \\ \hline
+    2 & 2 \\ \hline
+    3 & 4 \\ \hline
+
     \caption{Parameters for UOR minimum replica count tests}
     \label{table:test-min-replica-count-uor}
-\end{table}
+\end{tabularx}
 
-\begin{table}[h]
-    \centering
-    \begin{tabularx}{\textwidth}{|X|X|}
-        \hline
-        \textbf{Test iteration} & \textbf{Minimum replica count (Django and IDAES)}  \\ \hline
-        1 & 1 \\ \hline
-        2 & 2 \\ \hline
-        3 & 4 \\ \hline
-    \end{tabularx}
+\begin{tabularx}{\textwidth}{|X|X|}
+    \hline
+    \textbf{Test iteration} & \textbf{Minimum replica count (Django and IDAES)}  \\ \hline
+    1 & 1 \\ \hline
+    2 & 2 \\ \hline
+    3 & 4 \\ \hline
+
     \caption{Parameters for FS minimum replica count tests}
     \label{table:test-min-replica-count-fs}
-\end{table}
+\end{tabularx}
 
 \subsubsection{Resource allocation}
 
 CPU and memory resource requests are set on deployment manifests for containers within a pod. In this context, each pod has one container. These resource requests indicate to the cluster the minimum amount of CPU time  that needs to be made available to the pod. The pod may not use all of its resource request, but this allows the cluster pod scheduler to decide how to allocate unscheduled pods across the CPU resource pool available. The unit for a CPU resource request is the millicore, which is one thousandth of one physical CPU core.
 
-\textbf{Load profiles used:} Spike, breakpoint
+\noindent\textbf{Load profiles used:} Spike, breakpoint
 
-\begin{table}[h]
-    \centering
-    \begin{tabularx}{\textwidth}{|X|X|}
-        \hline
-        \textbf{Test iteration} & \textbf{CPU allocation (millicores)}  \\ \hline
-        1 & 500 \\ \hline
-        2 & 1000 \\ \hline
-        3 & 2000 \\ \hline
-    \end{tabularx}
+\begin{tabularx}{\textwidth}{|X|X|}
+    \hline
+    \textbf{Test iteration} & \textbf{CPU allocation (millicores)}  \\ \hline
+    1 & 500 \\ \hline
+    2 & 1000 \\ \hline
+    3 & 2000 \\ \hline
+
     \caption{Parameters for resource allocation tests (UOR and FS)}
     \label{table:test-resource-allocation}
-\end{table}
+\end{tabularx}
 
 \subsubsection{Target resource utilisation}
 
@@ -300,19 +305,17 @@ This metric is used by the cluster to make scaling decisions. Using the CPU reso
 
 \noindent\textbf{Load profiles used:} Spike, breakpoint
 
-\begin{table}[h]
-    \centering
-    \begin{tabularx}{\textwidth}{|X|X|}
-        \hline
-        \textbf{Test iteration} & \textbf{Average CPU utilisation target (\%)}  \\ \hline
-        1 & 25 \\ \hline
-        2 & 50 \\ \hline
-        3 & 75 \\ \hline
-        4 & 90 \\ \hline
-    \end{tabularx}
+\begin{tabularx}{\textwidth}{|X|X|}
+    \hline
+    \textbf{Test iteration} & \textbf{Average CPU utilisation target (\%)}  \\ \hline
+    1 & 25 \\ \hline
+    2 & 50 \\ \hline
+    3 & 75 \\ \hline
+    4 & 90 \\ \hline
+
     \caption{Parameters for resource utilisation tests (UOR and FS)}
     \label{table:test-resource-utilisation}
-\end{table}
+\end{tabularx}
 
 \subsubsection{Scale-up pod addition limits}
 
