@@ -21,6 +21,11 @@
 \usepackage{caption}
 \usepackage{float}
 \usepackage{tabularx}
+\usepackage{needspace}
+\usepackage{ltablex} % Allows for multi-page tables with automatic width adjustment
+
+\keepXColumns
+
 \usepackage[
 backend=biber,
 style=ieee,
@@ -41,6 +46,16 @@ isbn=false
 \usepackage[left=2.0cm, right=2.0cm, top=2.0cm, bottom=2.0cm, includefoot]{geometry}
 % If interested in using 'fancyhdr' add in to the above:
 % headheight=13.6pt
+
+% Save the original tabularx definition
+\let\origtabularx\tabularx
+
+% Redefine tabularx to include \needspace before the table
+\renewcommand{\tabularx}[2]{%
+    \vspace{0.4cm}
+    \needspace{2\baselineskip} % Adjust this based on your requirements
+    \origtabularx{#1}{#2} % Call the original tabularx with the same arguments
+}
 
 \def\degree{Bachelor of Engineering (Hons)}
 \def\thesis{R\&D report (Dissertation)}
