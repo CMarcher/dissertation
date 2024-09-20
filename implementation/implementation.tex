@@ -61,14 +61,32 @@ A container image mirror service called \textit{oci-registry}\footnote{Container
 
 \subsection{Cloudflare Tunnel ingress point}
 
-\section{Kubernetes manifest configuration}
+The 4G router used does not have a publicly routable IP address assigned to it at this time, let alone one that is static. However, it is still necessary to make the platform available to users over the internet. While using the VPN to achieve user access is possible, this does not expand well beyond a limited pool of users, who already would need to gain access to a VPN that is intended to be private and restricted to developer use.
+
+Cloudflare has a tunnel\footnote{Cloudflare Tunnel: https://www.cloudflare.com/products/tunnel/} service as part of their Zero Trust product range. The service allows devices with internet access to create a tunnel connection with Cloudflare using a background service called Cloudflared, which can receive traffic proxied through Cloudflare, and forward it to the intended internal service. 
+
+Within the cluster, the Cloudflared service worker runs on the control node, and forwards HTTPS traffic to the handling service at port 443. With Cloudflare serving as the DNS provider, traffic sent to Ahuora-controlled domains (such as api.ahuora.org.nz or ahuora.org.nz) can be internally forwarded over the tunnel, and subsequently sent to the Kubernetes cluster and handled by the corresponding service. Cloudflare then handles the responsibility of providing a trusted HTTPS connection to users over the internet. This allows the Ahuora Digital Platform to be made accessible over the internet despite the absence of a publicly accessible router.
+
+There are some downsides to using Cloudflare's tunnel service. Compared to direct traffic access, the available egress bandwidth is reduced, and with already-limited bandwidth capacity due to the usage of a mobile network (instead of a datacentre with fibre infrastructure), the ability to serve external users is partially diminished. To compound this, the latency when interacting with the Ahuora Digital Platform is substantially increased. Another small downside is the tunnel service taking some of the available compute resources when running on the control node, increasing with the amount of traffic.
+
+% Put the latency and bandwidth problem graph here, and reference from the corresponding methodology section? %
+
+\section{Kubernetes cluster configuration}
 \subsection{Deployments}
+
+The Ahuora Digital Platform includes several constituent software components that operate together to serve the platform. These include the Django API, the React-based front-end, the IDAES PSE (process systems engineering) solver service, and a Postgres database for housing data accessed and managed through the API. Each of these components needs to be deployed by the Kubernetes cluster.
+
+Within a Docker-based environment, the individually runnable software unit is known as a container, which has an isolated filesystem with all the necessary dependencies for the target software to run. In Kubernetes, the most granular runnable software unit is instead called a ``pod''. A pod can manage several containers, and are treated as one element operated on by the cluster control plane, including initialisation, termination and scaling actions.
+
+A Deployment object defines the container image to run, ports to expose, environment variables and secrets to consume, healthcheck endpoints, and more.
+
 \subsection{Services}
 \subsection{Ingresses}
 \subsection{Authentication}
-\subsection{Database Stateful Set}
+\subsection{Database management}
 \subsubsection{Postgres}
 \subsubsection{Connection Pooling}
+\subsection{Monitoring}
 
 \section{Kubernetes deployment automation}
 \subsection{ArgoCD manifest synchronisation}
