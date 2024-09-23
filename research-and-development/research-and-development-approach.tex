@@ -115,7 +115,7 @@ The unit operation retrieval endpoint interacts with the Django API server and t
 
 % Perhaps get a smoke test done at 1 request per second for both endpoints.
 
-Flat load profiles will have initial ramp-up and ramp-down periods between their core profiles to provide corresponding system warm-up and cooldown periods. These periods will be short, fixed at 5\% of the total test duration each.
+Flat load profiles will have initial ramp-up and ramp-down periods between their core profiles to provide corresponding system warm-up and cooldown periods. These periods will be short, fixed at 5\% of the total test duration each. All load profiles will have a 30-second ``graceful stop'' period, which allows requests already in the queue to complete, preventing the processing of requests from the end of one trial affecting the results of the immediately subsequent trial.
 
 To avoid individual tests skewing the overall results, each test scenario will be run three times, with the resulting data averaged across the three trials.
 
