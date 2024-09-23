@@ -71,8 +71,7 @@ There are some downsides to using Cloudflare's tunnel service. Compared to direc
 
 % Put the latency and bandwidth problem graph here, and reference from the corresponding methodology section? %
 
-\section{Kubernetes cluster configuration}
-\subsection{Deployments}
+\section{Platform migration to Kubernetes cluster}
 
 The Ahuora Digital Platform includes several constituent software components that operate together to serve the platform. These include the Django API, the React-based front-end, the IDAES PSE (process systems engineering) solver service, and a Postgres database for housing data accessed and managed through the API. Each of these components needs to be deployed by the Kubernetes cluster.
 
@@ -80,10 +79,57 @@ Within a Docker-based environment, the individually runnable software unit is kn
 
 A Deployment object defines the container image to run, ports to expose, environment variables and secrets to consume, healthcheck endpoints, and more.
 
-\subsection{Services}
-\subsection{Ingresses}
+\subsection{Django API}
+
+The Django API was one of the first core deployed platform elements. The API is managed as a deployment object, and assigned the ``django-api'' label to allow a Kubernetes service to target the pods belonging to the corresponding deployment. 
+
+Since the API relies on access to a Postgres database to perform any data-related operation, it requires access to a set of credentials that can authenticate its database access. It would not be appropriate to explicitly define these credentials within the internal settings of the API. First, keeping credentials available in code is a substantial security risk, where anyone who has read access either to the git repository of the API, or the API's published container image, would have knowledge of the credentials required to access the database. Though the database is not externally accessible outside of the cluster, this does broaden the scope for access in case of an internal breach of security. Second, static credentials are inflexible and difficult to manage. Entirely new versions of the API would have to be published and synchronised to the cluster deployment if any credential rotation was performed. As such, Kubernetes' native secret management system is used to inject database credentials as environment variables.
+
+Other elements of configuration that should be dynamically assigned have also made use of environment variables for configuration injection, instead of static assignment. This includes the private service URL for IDAES, the DNS name of the database, the permitted host names that can be used to access the API, and the runtime mode.
+
+With the deployment being able to manage any number of Django API replicas, it is necessary to provide load-balancing that can abstract away the responsibility of service selection from internal clients. Kubernetes allows one to define a ``Service'' object which takes on this responsibility. While a service has several potential modes of operation, the one appropriate for the Django API is ClusterIP. A ClusterIP service targets a series of pod endpoints based on a pod selector (matching a label(s) defined on the selector with labels found on pods). This service is then assigned a single private IP address that can be used from within the cluster to access pods without needing any knowledge of their individual addresses. This service can then distribute traffic to the target pods.
+
+% A diagram showing the internal flow of data to the API %
+% Content on Granian %
+
+\subsection{Front-end}
+
+The platform is primarily interacted with via a React-based front-end client, which in turn makes calls to the Django API for retrieving and persisting data created by the user. During development, the front-end is accessed via a developer-oriented static web server, accessing each of the individual component files one-by-one when navigating to a page. This approach does not bode well for what is meant to be a production version of the application, with the total load time being potentially tens of seconds long.
+
+To create an efficient production version of the front-end to run on the cluster, it was necessary to alter the container image build process to construct an optimised static build. The Vite\footnote{Vite: https://vitejs.dev/} build tool is used to produce minimised HTML, JavaScript and CSS files. These files are then transferred to an Nginx web server image, where Nginx then ultimately serves the files at runtime. The combination of an optimised static files bundle and usage of a purpose-build web server allows for a proper production version of the front-end to be deployed.
+
+Within this new build process, it was also necessary to introduce build variables that allow for values to be injected into the client at build-time. In particular, the base API endpoint that the front-end uses to make API calls requires this injection step, as it varies depending on whether it is in a development or production environment. The development environment will refer to localhost, while in production this must be the API's assigned FQDN (fully qualified domain name), api.ahuora.org.nz.
+
+With these elements in place, the front-end could be deployed to the cluster, and provided a ClusterIP service to enable internal access as with the Django API.
+
+\subsection{IDAES service}
+
+A separate application was created to handle receiving flowsheet solve requests using the IDAES PSE framework. This IDAES service is used internally by the Django API, but can be independently scaled up and down separate to the API. This IDAES worker was deployed (once more) using a Kubernetes deployment object, along with a ClusterIP service pointing to this deployment.
+
+\subsection{Public gateway}
+
+Initially, each of the public-facing platform components, the API and front-end, were to be exposed using a load balancer service type. This was the configuration for some time while the platform was only exposed over the ZeroTier VPN during early testing phases. However, it became apparent that a centralised public entrypoint was needed to manage access to the platform. Requiring individual platform components to implement their own access management was not going to serve as a suitable long-term strategy, especially as the stakes raise over time with respect to an increasing need for data security and integrity.
+
+Kubernetes has a concept known as an ``Ingress'', which is a centralised gateway for certain types of traffic, most often HTTP/S. Such a gateway can make use of the host name provided in received requests to redirect them internally to a handling service, if one exists. The ingress gateway can introduce middleware for various purposes, including authentication management, redirection and CORS (Cross-Origin Resource Sharing) handling. Such middleware can then intercept requests for processing dynamically altering requests (and responses) prior to forwarding. As well as this, ingresses can integrate with automatic TLS certificate provisioning via systems like cert-manager\footnote{cert-manager: \url{https://cert-manager.io/}}, reducing the operations security workload and minimising the risk of misconfiguration.
+
+An series of ingresses have been created for the Ahuora Digital Platform, controlling access to the API, front-end and the authentication service. Requests including ahuora.org.nz as the host are forwarded to the front-end service, and likewise, those including api.ahuora.org.nz to the API service, and auth.ahuora.org.nz to the authentication service. Any HTTP (port 80) or HTTPS (port 443) traffic sent to the external IP addresses of cluster is monopolised by the ingress controller, which in K3s, is the designated to be the Traefik\footnote{Traefik: \url{https://traefik.io/traefik/}} reverse proxy. Traefik uses the ingresses defined for each Ahuora platform service to perform traffic forwarding.
+
+% Diagram of the flow of traffic from the ingress gateway to internal services, to pods.
+
+\subsubsection{Front-end ingress}
+
+The front-end uses one custom middleware chain, consisting of the ``oauth-forwarder'' and ``oauth-signin''. The former is responsible for sending requests to the authentication service to check for valid credentials, and the latter uses the preceding HTTP response to decide whether to redirect the user to the authentication service's sign-in page.
+
+\subsubsection{Django API ingress}
+
+Requests made using the API FQDN are similarly processed by middleware, but instead by ``django-cors'' (the aforementioned CORS handler) and then ``oauth-forwarder''. The CORS handler defines the allowed HTTP methods, headers, cookies, host names and source origins that can be used while interacting with the API.
+
+The Django API does not use the same authentication middleware chain used by the front-end, as an unauthorised API call should simply be rejected instead of redirected, and API clients are not capable of interacting with a sign-in page in any case.
+
+\subsubsection{Authentication ingress}
+
 \subsection{Authentication}
-\subsection{Database management}
+\subsection{Postgres database}
 \subsubsection{Postgres}
 \subsubsection{Connection Pooling}
 \subsection{Monitoring}
