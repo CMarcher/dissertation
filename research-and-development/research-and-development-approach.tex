@@ -100,18 +100,16 @@ Load tests will be run from the ingress node against the cluster, with traffic d
 
 Various load profiles are used to assess system performance and dynamics. This allows for observation of whether the system is appropriately tuned or capable of responding to both flat and variable load profiles, as well as handling extended load periods. Two core API endpoints available on the Django API server are used for each test scenario, as described in Table \ref{table:test-api-endpoints}. Software versions used are: Django API 0.0.17, IDAES worker 0.0.10 and Postgres 16.4.
 
-\begin{table}[h]
-    \centering
-    \begin{tabularx}{\textwidth}{|p{0.2\textwidth}|X|p{0.28\textwidth}|}
-        \hline
-        \textbf{Test type} & \textbf{Endpoint} & \textbf{Description} \\ \hline
-        Unit operation retrieval (UOR) & /api/unitops/unitops/?flowsheetOwner=\{id\} & Retrieves all unit operations belonging to a particular flowsheet. \\ \hline
+\begin{tabularx}{\textwidth}{|p{0.2\textwidth}|X|p{0.28\textwidth}|}
+    \hline
+    \textbf{Test type} & \textbf{Endpoint} & \textbf{Description} \\ \hline
+    Unit operation retrieval (UOR) & /api/unitops/unitops/?flowsheetOwner=\{id\} & Retrieves all unit operations belonging to a particular flowsheet. \\ \hline
 
-        Flowsheet solving (FS) & /api/solve/idaes/ & Serialises a flowsheet and sends an internal request to the IDAES service to solve the flowsheet's parameters. \\ \hline
-    \end{tabularx}
+    Flowsheet solving (FS) & /api/solve/idaes/ & Serialises a flowsheet and sends an internal request to the IDAES service to solve the flowsheet's parameters. \\ \hline
+
     \caption{API endpoints used for system testing}
     \label{table:test-api-endpoints}
-\end{table}
+\end{tabularx}
 
 The unit operation retrieval endpoint interacts with the Django API server and the PostgreSQL database. The flowsheet solving endpoint interacts with both of these, as well as the IDAES service. The specific load profiles used against either endpoint will differ, as these endpoints have dissimilar baseline response times. The time required to make a single unit operation retrieval request is between 20 and 40 milliseconds, while a solve request may take 500 to 1000 milliseconds.
 
@@ -222,9 +220,11 @@ These load profiles will linearly increase the number of requests made against t
 
 Within Kubernetes, an operator can define the scaling policies associated with a specific workload. Scaling policies define how many replicas of a workload should be running, based on either static values, or dynamic metrics such as CPU, network or memory usage. As a workload operates, the cluster control plane will monitor the resource utilisation of the workload, and perform scaling operations (both scaling up and down) based on the corresponding scaling policies. The following experiments will assess different scaling policy elements and their impact on the selected key metrics.
 
+The \verb|HorizontalPodAutoscaler| settings used in these tests will have the scale-down stabilisation window set to 30 seconds to allow the autoscaler to reset quickly inbetween tests. The default for this window is 300 seconds, which limits the scaling action instability (pod replicas rapidly increasing and decreasing unnecessarily), as the autoscaler will look at all CPU resource usage within the past 300 seconds and take the maximum utilisation value to inform scaling actions. Setting it to 30 seconds will still provide some stability, but avoid long cooldown periods.
+
 \subsubsection{Replica count}
 
-On a Kubernetes Deployment object, the ``replicas'' field statically defines the number of pod replicas that should be running on the cluster. This test will assess how the number of active replicas influences system throughput and response time.
+On a Kubernetes \verb|Deployment| object, the ``replicas'' field statically defines the number of pod replicas that should be running on the cluster. This test will assess how the number of active replicas influences system throughput and response time.
 
 \noindent\textbf{Load profiles used:} Average, stress, spike, breakpoint
 
@@ -255,9 +255,39 @@ On a Kubernetes Deployment object, the ``replicas'' field statically defines the
     \label{table:test-replica-count-fs}
 \end{tabularx}
 
+\subsubsection{Resource allocation and target utilisation}
+
+CPU and memory resource requests are set on deployment manifests for containers within a pod. In this context, each pod has one container. These resource requests indicate to the cluster the minimum amount of CPU time  that needs to be made available to the pod. The pod may not use all of its resource request, but this allows the cluster pod scheduler to decide how to allocate unscheduled pods across the CPU resource pool available. The unit for a CPU resource request is the millicore, which is one thousandth of one physical CPU core.
+
+This metric is used by the cluster to make scaling decisions. Using the CPU resource request usage across all pod replicas within a deployment, an average utilisation percentage is taken, and compared with the target utilisation percentage defined in the corresponding \verb|HorizontalPodAutoscaler| scaling policy. If the average utilisation exceeds the target by a certain threshold, then more pods are scheduled and run to achieve the target. Likewise, utilisation falling below the target by the same threshold will result in pods being removed.
+
+These tests will assess the impact of the permutations of three CPU resource allocation settings and four target utilisation thresholds on response time and throughput. The number of Django API and IDAES replicas over time will be observed.
+
+\noindent\textbf{Load profiles used:} Spike, breakpoint
+
+\begin{tabularx}{\textwidth}{|p{0.15\textwidth}|X|X|}
+    \hline
+    \textbf{Test iteration} & \textbf{CPU allocation (millicores)} & \textbf{Average CPU utilisation target (\%)}  \\ \hline
+    1 & 500 & 25 \\ \hline
+    2 & 500 & 50 \\ \hline
+    3 & 500 & 75 \\ \hline
+    4 & 500 & 90 \\ \hline
+    5 & 1000 & 25 \\ \hline
+    6 & 1000 & 50 \\ \hline
+    7 & 1000 & 75 \\ \hline
+    8 & 1000 & 90 \\ \hline
+    9 & 2000 & 25 \\ \hline
+    10 & 2000 & 50 \\ \hline
+    11 & 2000 & 75 \\ \hline
+    12 & 2000 & 90 \\ \hline
+
+    \caption{Parameters for resource allocation and target utilisation tests (UOR and FS)}
+    \label{table:test-resource-allocation}
+\end{tabularx}
+
 \subsubsection{Minimum replica count}
 
-The minimum replica count is a property of the \textit{HorizontalPodAutoscaler}, which defines the scaling policies to be adhered to by the control plane's autoscaling controller. The minimum replica count, as plainly indicated, sets a requirement for the smallest number of pod replicas that are allowed to run, regardless of whether the target resource utilisation threshold is being met.
+The minimum replica count is a property of the \verb|HorizontalPodAutoscaler|, which defines the scaling policies to be adhered to by the control plane's autoscaling controller. The minimum replica count, as plainly indicated, sets a requirement for the smallest number of pod replicas that are allowed to run, regardless of whether the target resource utilisation threshold is being met.
 
 \noindent\textbf{Load profiles used:} Spike, breakpoint
 
@@ -281,41 +311,6 @@ The minimum replica count is a property of the \textit{HorizontalPodAutoscaler},
 
     \caption{Parameters for FS minimum replica count tests}
     \label{table:test-min-replica-count-fs}
-\end{tabularx}
-
-\subsubsection{Resource allocation}
-
-CPU and memory resource requests are set on deployment manifests for containers within a pod. In this context, each pod has one container. These resource requests indicate to the cluster the minimum amount of CPU time  that needs to be made available to the pod. The pod may not use all of its resource request, but this allows the cluster pod scheduler to decide how to allocate unscheduled pods across the CPU resource pool available. The unit for a CPU resource request is the millicore, which is one thousandth of one physical CPU core.
-
-\noindent\textbf{Load profiles used:} Spike, breakpoint
-
-\begin{tabularx}{\textwidth}{|X|X|}
-    \hline
-    \textbf{Test iteration} & \textbf{CPU allocation (millicores)}  \\ \hline
-    1 & 500 \\ \hline
-    2 & 1000 \\ \hline
-    3 & 2000 \\ \hline
-
-    \caption{Parameters for resource allocation tests (UOR and FS)}
-    \label{table:test-resource-allocation}
-\end{tabularx}
-
-\subsubsection{Target resource utilisation}
-
-This metric is used by the cluster to make scaling decisions. Using the CPU resource request usage across all pod replicas within a deployment, an average utilisation percentage is taken, and compared with the target utilisation percentage defined in the corresponding \textit{HorizontalPodAutoscaler} scaling policy. If the average utilisation exceeds the target by a certain threshold, then more pods are scheduled and run to achieve the target. Likewise, utilisation falling below the target by the same threshold will result in pods being removed.
-
-\noindent\textbf{Load profiles used:} Spike, breakpoint
-
-\begin{tabularx}{\textwidth}{|X|X|}
-    \hline
-    \textbf{Test iteration} & \textbf{Average CPU utilisation target (\%)}  \\ \hline
-    1 & 25 \\ \hline
-    2 & 50 \\ \hline
-    3 & 75 \\ \hline
-    4 & 90 \\ \hline
-
-    \caption{Parameters for resource utilisation tests (UOR and FS)}
-    \label{table:test-resource-utilisation}
 \end{tabularx}
 
 \subsubsection{Scale-up pod addition limits}
