@@ -1,5 +1,15 @@
 \chapter{Research and Development Approach}
 
+\section{Kubernetes distribution}
+
+With the intent of using Kubernetes as the distributed systems platform to build the Ahuora Digital Platform on top of, a specific distribution of Kubernetes still needs to be chosen. In general, engineers can choose between managed versions of Kubernetes, which are controlled by cloud providers (such as Amazon Web Services or Microsoft Azure), or self-managed versions, which require more up-front effort to provision a functioning cluster.
+
+Managed versions of Kubernetes do not currently suit the needs of the platform at this time, as there are high ongoing costs associated with accessing a managed cluster service, as well as the usage of cloud-based virtual machines. Moreover, cloud service pricing can be less predictable and controllable than that of a physical environment where all the hardware part of the system is controlled directly. With a set of Raspberry Pis available for running a cluster, a Kubernetes distribution suited to a self-hosted approach is ideal.
+
+There were three distributions of Kubernetes considered for selection: minikube\footnote{minikube: \url{https://minikube.sigs.k8s.io/docs/}}, MicroK8s\footnote{MicroK8s: \url{https://microk8s.io/}} and K3s\footnote{K3s: \url{https://k3s.io/}}. minikube is oriented towards local Kubernetes cluster development, and enabling a quick cluster set-up process. MicroK8s presents itself as the easiest lightweight Kubernetes distribution to install, with an emphasis on simple addon integration for expansion of cluster behaviour and functionality. K3s specifically targets edge and small-scale computing environments, and is optimised for ARM CPU architectures.
+
+minikube, while a useful tool, was not considered suitable for the bare metal, multi-node Raspberry Pi cluster environment. Its reputation is that of a development tool, and not for running production workloads. MicroK8s 
+
 \section{Kubernetes cluster architecture}
 
 \section{Performance analysis experiment components}
