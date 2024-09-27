@@ -390,7 +390,7 @@
   {\parindent \z@ \raggedright \normalfont
     \ifnum \c@secnumdepth >\m@ne
       \if@mainmatter
-        \large\bfseries \thechapter. #1
+        \large\bfseries Chapter \thechapter. #1
       \fi
     \fi
   }}
@@ -410,7 +410,7 @@
 \newcommand\section{\@startsection {section}{1}{\z@}%
                                    {-3.5ex \@plus -1ex \@minus -.2ex}%
                                    {2.3ex \@plus.2ex}%
-                                   {\normalfont\Large\bfseries}}
+                                   {\normalfont\large\bfseries}}
 \newcommand\subsection{\@startsection{subsection}{2}{\z@}%
                                      {-3.25ex\@plus -1ex \@minus -.2ex}%
                                      {1.5ex \@plus .2ex}%
