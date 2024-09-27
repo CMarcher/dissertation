@@ -174,7 +174,7 @@ Instead of the Django API connecting directly to the Postgres database, it conne
 
 % Show test results for getunitops experiment with and without connection pooling
 
-\subsection{Monitoring}
+\subsection{Monitoring} \label{section:monitoring-implementation}
 
 Within any distributed computing system, it is critical to maintain good knowledge of how the system is operating at several levels of granularity, whether that at the level of an individual application, a participating node, or the system overall. This involves having access to data reporting resource usage, health statuses and various logs that work together to describe the state of the system. An absence of these things makes it far more challenging to diagnose the system when (not if) things go wrong.
 
@@ -200,7 +200,7 @@ The core resource used by Argo CD is the \verb|Application|. An \verb|Applicatio
 
 While Argo CD is responsible for tracking changes made to manifests, including version changes of container image dependencies, a fully automated release pipeline still requires version changes to be automatically applied to manifests. To establish this, several GitHub Actions workflows were created, involving both the core Ahuora platform and cluster configuration repositories.
 
-\subsubsection{Container image build processes}
+\subsubsection{Container image build processes} \label{section:build-process}
 
 A generic container image build and publishing process was defined as a GitHub Actions workflow. This workflow consists of three ``jobs'' or stages. 
 
@@ -216,6 +216,14 @@ This generic workflow is then re-used by workflows specific to the Django API, f
 
 In response to new image versions published to Docker Hub, Kubernetes manifests should be automatically updated to use these new versions, which can then be identified by Argo CD for pulling downstream.
 
-An application called Renovate\footnote{Renovate: \url{https://docs.renovatebot.com/}} exists for this very purpose. Renovate can check for updates to depedencies for many different package types, including Kubernetes manifests. In the cluster configuration repository, Renovate settings were added to require a Renovate bot to check for upstream version changes to manifests in the Ahuora manifest directory (belonging to the Ahuora Argo CD \verb|Application|). Docker Hub credentials had to be provided to Renovate to check for image version changes, as each of the Docker Hub image repositories is marked as private.
+An application called Renovate\footnote{Renovate: \url{https://docs.renovatebot.com/}} exists for this very purpose. Renovate can check for updates to depedencies for many different package types, including Kubernetes manifests. In the cluster configuration repository, Renovate settings were added to require a Renovate bot to check for upstream version changes to manifests in the Ahuora manifest directory (belonging to the Ahuora Argo CD \verb|Application|). When changes are detected, Renovate will create a pull request  for each version change. Docker Hub credentials had to be provided to Renovate to check for image version changes, as each of the Docker Hub image repositories is marked as private.
+
+Initially, Renovate was added as a third-party GitHub app to the repository. This allowed Renovate to manage the dependency check scheduling as well as secret injection, reducing the need to create a custom GitHub Actions workflow. However, when the need for triggering a dependency check arose to allow for full release pipeline integration, the lack of a trigger mechanism called for a move to manual usage of Renovate.
+
+The new workflow is scheduled to run every hour, but it can also be triggered via an API request, as previously mentioned in \ref{section:build-process}. Since several images can be built and published concurrently, it is possible that several workflow runs could be triggered. Only one Renovate dependency check should attempt to update manifest versions at a time, lest duplicate pull requests are created and automatic merges are halted. A concurrency group is used here to prevent concurrent runs.
+
+The final step in enabling full pipline automation was to configure the repository (and Renovate) to allow for automatic merges. By default, a developer has to explicitly request for a pull request to be merged into the target branch. With automatic merges, a tool, such as Renovate, can mark a pull request as auto-mergeable, where then GitHub will manage the merge process without further interaction.
+
+With all this in place, it is possible for new versions of platform software to be merged in the Ahuora platform repository, have the corresponding container images built, update the referenced versions in their dependent Kubernetes manifests, and then update the cluster to use the latest versions. The entire process following a merge is now automated.
 
 % Provide diagram of pipeline
