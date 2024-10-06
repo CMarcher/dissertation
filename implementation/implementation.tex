@@ -39,7 +39,7 @@ The Ansible playbooks used in configuring the system were adapted from the offic
 
 \section{Isolated cluster access}
 
-\subsection{Network airgapping}
+\subsection{Network airgapping} \label{subsection:airgapping}
 
 As a step towards better cluster security, access to the internet for nodes running Kubernetes is heavily restricted. No nodes beyond the control node are connected to the 4G router, and are limited to local network communication. In the case of maliciously crafted or modified software that may inadvertently be deployed on the cluster (or directly to the base hosts), their ability to exfiltrate information or otherwise communicate with the outside world has been minimised. The K3s control node requires internet access in order to perform tasks such as push collected logs and metrics, check for configuration updates in the associated cluster GitHub repository and install plugins.
 
