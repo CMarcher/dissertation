@@ -146,63 +146,35 @@ Cluster-level metrics are retrieved and collected at one-minute intervals. This 
     \label{table:k6-load-test-options}
 \end{tabularx}
 
+\subsubsection{Load profile configuration}
+
+\begin{tabularx}{\textwidth}{|X|X|X|}
+    \hline
+    \textbf{Load profile} & \textbf{UOR Load (requests/second)} & \textbf{FS Load (requests/second)} \\ \hline
+    Average & 15 & 1 \\ \hline
+    Stress & 30 & 2 \\ \hline
+    Spike & 80 & 8 \\ \hline
+    Breakpoint & 200 & 32 \\ \hline
+
+    \caption{Load profile values for API endpoints}
+    \label{table:test-load-plan}
+\end{tabularx}
+
 \subsubsection{Average-load testing}
 
 This load profile will test the system against a flat load profile, or a fixed number of requests per second. The intent is to assess how the system performs under what can be called an ``average'' load. The Ahuora Digital Platform is not publicly available as of writing, and so the average load will have to be assumed at some value, as we do not have actual usage data that can be used to inform an appropriate average load value. Tests will last ten minutes.
-
-
-\begin{tabularx}{\textwidth}{|X|X|}
-    \hline
-    \textbf{Test type} & \textbf{Load (requests/second)}  \\ \hline
-    UOR & 15 \\ \hline
-    FS & 1 \\ \hline
-
-    \caption{Average load values for API endpoints}
-    \label{table:test-average-load-plan}
-\end{tabularx}
 
 \subsubsection{Stress testing}
 
 The stress testing load profile will assess the system at an ``above-average'' load, which will be set at 200\% of the previously outlined average load values (Table \ref{table:test-average-load-plan}). The goal is to determine what performance degradation (if any) happens when the system experiences load that is still within an expected range.
 
-\begin{tabularx}{\textwidth}{|X|X|}
-    \hline
-    \textbf{Test type} & \textbf{Load (requests/second)}  \\ \hline
-    UOR & 30 \\ \hline
-    FS & 2 \\ \hline
-
-    \caption{Stress test load values for API endpoints}
-    \label{table:test-stress-load-plan}
-\end{tabularx}
-    
-
 \subsubsection{Spike testing}
 
 Spike tests will test how the system responds to a rapidly increasing, very high load (that may be overwhelming) that then rapidly decreases. These tests will last for four minutes.
 
-\begin{tabularx}{\textwidth}{|X|X|}
-    \hline
-    \textbf{Test type} & \textbf{Load (requests/second)}  \\ \hline
-    UOR & 80 \\ \hline
-    FS & 8 \\ \hline
-
-    \caption{Spike load values for API endpoints}
-    \label{table:test-spike-load-plan}
-\end{tabularx}
-
 \subsubsection{Breakpoint testing}
 
 These load profiles will linearly increase the number of requests made against the system per second to some extremely high threshold. This will allow the ``breakpoint'' of the system to be identified, or the point at which system performance either rapidly deterioates or completely collapses. These tests will run for a maximum of ten minutes. To prevent tests for running far beyond the breakpoint unnecessarily, a threshold will be defined for each breakpoint load profile variant, which will mandate that the number of virtual users (VUs) does not exceed 100. If this threshold is exceeded, then the test will cease.
-
-\begin{tabularx}{\textwidth}{|X|X|}
-    \hline
-    \textbf{Test type} & \textbf{Load (requests/second)}  \\ \hline
-    UOR & 200 \\ \hline
-    FS & 32 \\ \hline
-
-    \caption{Breakpoint load values for API endpoints}
-    \label{table:test-breakpoint-load-plan}
-\end{tabularx}
 
 \subsection{Horizontal scaling policies}
 
@@ -273,30 +245,30 @@ These tests will assess the impact of the permutations of three CPU resource all
     \label{table:test-resource-allocation}
 \end{tabularx}
 
-\subsubsection{Minimum replica count}
+% \subsubsection{Minimum replica count}
 
-The minimum replica count is a property of the \verb|HorizontalPodAutoscaler|, which defines the scaling policies to be adhered to by the control plane's autoscaling controller. The minimum replica count, as plainly indicated, sets a requirement for the smallest number of pod replicas that are allowed to run, regardless of whether the target resource utilisation threshold is being met. Tests will use a CPU allocation of 500 millicores and target CPU utilisation of 50\% (for both the Django and IDAES pods). Though these may not necessarily be the optimal parameter choices, the purpose of this test is to observe the general response time and throughput effect when combining a baseline replica count and auto-scaling.
+% The minimum replica count is a property of the \verb|HorizontalPodAutoscaler|, which defines the scaling policies to be adhered to by the control plane's autoscaling controller. The minimum replica count, as plainly indicated, sets a requirement for the smallest number of pod replicas that are allowed to run, regardless of whether the target resource utilisation threshold is being met. Tests will use a CPU allocation of 500 millicores and target CPU utilisation of 50\% (for both the Django and IDAES pods). Though these may not necessarily be the optimal parameter choices, the purpose of this test is to observe the general response time and throughput effect when combining a baseline replica count and auto-scaling.
 
-\noindent\textbf{Load profiles used:} Spike, breakpoint
+% \noindent\textbf{Load profiles used:} Spike, breakpoint
 
-\begin{tabularx}{\textwidth}{|X|X|}
-    \hline
-    \textbf{Test iteration} & \textbf{Minimum replica count (Django)}  \\ \hline
-    1 & 1 \\ \hline
-    2 & 2 \\ \hline
-    3 & 4 \\ \hline
+% \begin{tabularx}{\textwidth}{|X|X|}
+%     \hline
+%     \textbf{Test iteration} & \textbf{Minimum replica count (Django)}  \\ \hline
+%     1 & 1 \\ \hline
+%     2 & 2 \\ \hline
+%     3 & 4 \\ \hline
 
-    \caption{Parameters for UOR minimum replica count tests}
-    \label{table:test-min-replica-count-uor}
-\end{tabularx}
+%     \caption{Parameters for UOR minimum replica count tests}
+%     \label{table:test-min-replica-count-uor}
+% \end{tabularx}
 
-\begin{tabularx}{\textwidth}{|X|X|}
-    \hline
-    \textbf{Test iteration} & \textbf{Minimum replica count (Django and IDAES)}  \\ \hline
-    1 & 1 \\ \hline
-    2 & 2 \\ \hline
-    3 & 4 \\ \hline
+% \begin{tabularx}{\textwidth}{|X|X|}
+%     \hline
+%     \textbf{Test iteration} & \textbf{Minimum replica count (Django and IDAES)}  \\ \hline
+%     1 & 1 \\ \hline
+%     2 & 2 \\ \hline
+%     3 & 4 \\ \hline
 
-    \caption{Parameters for FS minimum replica count tests}
-    \label{table:test-min-replica-count-fs}
-\end{tabularx}
+%     \caption{Parameters for FS minimum replica count tests}
+%     \label{table:test-min-replica-count-fs}
+% \end{tabularx}

@@ -1,0 +1,27 @@
+\chapter{Background}
+
+\section{Project Alignment within Collaborative Work}
+
+\section{Kubernetes}
+
+Kubernetes is a core component of the research and development described in this work. Kubernetes is a container management platform designed for handling the entire lifecycle of containerised workloads within distributed (multi-host) environments, from scheduling and operation, to termination. Some of the key terms related to Kubernetes and its constituent parts are defined.
+
+\subsection{Containerisation}
+
+Containers are units of software that contain all the necessary dependencies and configuration required for a piece of software to run. A containerisation approach to software development and deployment allows engineers to avoid an entire class of software error related to misconfiguration and missing dependencies. Containers have isolated filesystems that appear to the contained processes as a standard filesystem within an operating system.
+
+\subsection{Pod}
+
+Containers are a critical part of Kubernetes. However, within Kubernetes, the most granular runnable software unit is instead called a “pod”. A pod can manage several containers, which are treated as one element operated on by the cluster control plane, including initialisation, termination and scaling actions.
+
+\subsection{Deployment}
+
+A deployment object defines the container image to run within a pod, ports to expose, environment variables and secrets to consume, healthcheck endpoints to poll, and more. While specific pods are not guaranteed survival within Kubernetes, deployments will attempt to ensure that the defined pods remain available. For example, if a pod is killed or deleted, the control plane will detect that the inconsistency of the corresponding deployment's ``desired'' state with its actual state, and attempt to schedule a replacement pod as part of that deployment.
+
+\subsection{Service}
+
+Pods running within a cluster use private IP addresses allocated to them by the cluster control plane. As such, workloads that are intended for public access are, by default, not accessible from hosts outside of the cluster. Pods that attempt to communicate with one another need to know the IP address of the pod prior. A service object can handle both of these problems. ClusterIP, the base mode of operation for services, allows for a a single IP address and associated DNS name to be used to access a set of pods. Other operation modes are built on top of ClusterIP mode, which allow for external traffic to access software running on the cluster.
+
+\subsection{Ingress}
+
+An ingress is a centralised gateway for certain types of traffic arriving at a cluster, most often HTTP/S. Such a gateway can make use of the host name provided in received requests to redirect them internally to a handling service, if one exists. The ingress gateway can introduce middleware for various purposes, including authentication management, redirection and CORS (Cross-Origin Resource Sharing) handling. Such middleware can then intercept requests for processing dynamically altering requests (and responses) prior to forwarding. As well as this, ingresses can integrate with automatic TLS certificate provisioning via systems like cert-manager\footnote{cert-manager: \url{https://cert-manager.io/}}, reducing the operations security workload and minimising the risk of misconfiguration.
