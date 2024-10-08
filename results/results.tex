@@ -113,7 +113,7 @@ This higher response time average is consistent with any number of replicas (as 
     \label{figure:uor-replica-count-i4-average}
 \end{figure}
 
-Regardless, any tested number of Django replicas running on the cluster is able to process incoming requests as fast as they arrive (evidenced in Fig \ref{figure:uor-replica-count-i1-average} and \ref{figure:uor-replica-count-i4-average}), so there are no significant request rate differences between the benchmarks and the replica count experiments. However, where the benchmarked local deployment shows evidence of performing worse than the clustered deployment is when testing spike and breakpoint loads with more than one replica. As shown in Fig. \ref{figure:uor-replica-count-rt-comp-spike}, a replica count of one performs similar to the benchmark, where the median response time reaches almost 17,000 milliseconds. The median response times for the remaining replica counts (2, 4 and 6) are far lower, ranging from 39.89 to 42.14 milliseconds.
+Regardless, any tested number of Django replicas running on the cluster is able to process incoming requests as fast as they arrive (evidenced in Fig \ref{figure:uor-replica-count-i1-average} and \ref{figure:uor-replica-count-i4-average}), so there are no significant request rate differences between the benchmarks and the replica count experiments. However, where the benchmarked local deployment shows evidence of performing worse than the clustered deployment is when testing spike and breakpoint loads with more than one replica. As shown in Fig. \ref{figure:uor-replica-count-rt-comp-spike}, a replica count of one performs similar to the benchmark, where the median response time reaches almost 17,000 milliseconds. The median response times for the remaining replica counts (2, 4 and 8) are magnitudes lower, ranging from 39.89 to 42.14 milliseconds.
 
 \begin{figure}[h]
     \centering
@@ -132,8 +132,85 @@ Regardless, any tested number of Django replicas running on the cluster is able 
     \label{figure:uor-replica-count-rt-comp-spike}
 \end{figure}
 
+With either four or eight Django replicas, the average response time increases by almost 30\% at the peak request arrival rate (Fig. \ref{figure:uor-replica-count-graph}), but the system is otherwise able to process these requests at the arrival rate. Early signs of degradation are seen when using two replicas, with the response time sharply doubling at the peak request rate, though both request rate curves are mostly consistent \ref{figure:uor-replica-count-graph2}. Interestingly, the response time curve dampening effect with four replicas is highly similar to that with eight replicas, despite doubling the number of available workers. With one replica, this is not the case, having a similar request completion curve (Fig. \ref{figure:uor-replica-count-graph2}) to the benchmark (Fig. \ref{figure:uor-benchmark-spike}), along with an 8.79\% request fail rate, which is 246.35 times worse than the benchmark. The usage of one replica results in the same degradation request rate as the benchmark. None of the other replica count variants have a degradation request rate. When it comes to the started and completed request ratio, a single replica sees a maximum ratio of 1.34 started requests to completed requests, whereas the other replica counts all reach no more than 1.02.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{figures/uor-replica-count-i3-graph.png}
+      \caption{4 replicas}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{figures/uor-replica-count-i4-graph.png}
+      \caption{8 replicas}
+    \end{subfigure}
+
+    \caption{Response time vs. request rate graph (spike load, 4 and 8 replicas)}
+    \label{figure:uor-replica-count-graph}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{figures/uor-replica-count-i1-graph.png}
+      \caption{1 replica}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{figures/uor-replica-count-i2-graph.png}
+      \caption{2 replicas}
+    \end{subfigure}
+
+    \caption{Response time vs. request rate graph (spike load, 1 and 2 replicas)}
+    \label{figure:uor-replica-count-graph2}
+\end{figure}
+
+Within the breakpoint tests, there is a significant distinction between the maximum request start rate reached across the lowest and highest number of replicas. As visible in Fig. \ref{figure:uor-replica-count-graph-breakpoint}, an eight-replica Django deployment reaches \textasciitilde150 started RPS (3.36 times the benchmark) before the response time exceeds 1000 milliseconds. On the other hand, the single replica deployment passes the degradation threshold at \textasciitilde35.3 started RPS. Over the course of the eight replica breakpoint test, the response time gradually increases with the request rate, becoming more unstable over time. Fig. \ref{figure:uor-replica-count-breakpoint-max-reqs} shows that a start RPS of 158 (2.84 times the benchmark) is the maximum reached by the eight-replica deployment. The four-replica deployment reaches a slightly smaller limit of 157 RPS, though it has a lower degradation request rate of \textasciitilde136.4 RPS (Fig. \ref{figure:uor-replica-count-breakpoint-deg-rates}).
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{figures/uor-replica-count-i1-graph-breakpoint.png}
+      \caption{1 replica}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{figures/uor-replica-count-i4-graph-breakpoint.png}
+      \caption{8 replicas}
+    \end{subfigure}
+
+    \caption{Response time vs. request rate graph (breakpoint load, 1 and 8 replicas)}
+    \label{figure:uor-replica-count-graph-breakpoint}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{.45\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{figures/uor-replica-count-breakpoint-max-reqs.png}
+
+      \caption{Chart of maximum request start rates by replica count}
+      \label{figure:uor-replica-count-breakpoint-max-reqs}
+    \end{minipage}%
+    \hspace{0.09\textwidth} % Adjust the horizontal space here
+    \begin{minipage}{.45\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{figures/uor-replica-count-breakpoint-deg-rates.png}
+
+      \caption{Chart of degradation request rates by replica count}
+      \label{figure:uor-replica-count-breakpoint-deg-rates}
+    \end{minipage}
+\end{figure}
+
+In general, a higher number of replicas allows for a higher degradation threshold, though when it comes to the maximum start RPS, the relationship does not appear to be as straightforward. The maximum start RPS only slightly increases from four to eight replicas, which indicates there may be a bottleneck elsewhere in the system preventing a higher maximum.
+
 \subsection{Resource allocation and utilisation}
 
+Results based on a static number of replicas have been showcased, but the effect of dynamic replica auto-scaling on key system metrics is also assessed.
 
 % \subsection{Minimum replicas}
 % \subsubsection{Average load}
