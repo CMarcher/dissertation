@@ -59,6 +59,8 @@ Response times will be assessed using an exponentially-weighted moving average (
     \label{figure:uor-benchmark-average}
 \end{figure}
 
+Both response time and request rate degradation can be observed in the local spike test (Fig. \ref{figure:uor-benchmark-spike}). After reaching \textasciitilde40 requests per second, the response time rapidly increases, and the request completion rate starts to diverge from the request start rate. At 45 requests per second (RPS), the response time average increases past 100 milliseconds, and reaches tens of thousands of milliseconds as the request rate continues to increase. During the test, the request start rate is also seen degrading (between 135 and 189 seconds). This is because of the virtual user limit of 2000 set on the k6 test client, which was configured to prevent system resource starvation by the test client. The response time does not appear to recover towards the end of the test. Approximately 0.036\% of requests in the spike tests failed, while neither the average or stress load tests had any failed requests.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/uor-benchmark-stress.png}
@@ -73,23 +75,62 @@ Response times will be assessed using an exponentially-weighted moving average (
     \label{figure:uor-benchmark-spike}
 \end{figure}
 
-\begin{figure}[h]
+The breakpoint test (Fig. \ref{figure:uor-benchmark-breakpoint}) also identifies this same 45 RPS threshold, beyond which the average response time exceeds 100 milliseconds, and the request completion rate also diverges. No requests failed in the breakpoint tests, but this in part due to the early termination threshold used by breakpoint tests.
+
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/uor-benchmark-breakpoint.png}
     \caption{UOR response time vs. request rate graph - breakpoint load benchmark}
     \label{figure:uor-benchmark-breakpoint}
 \end{figure}
 
-As seen in Fig. \ref{figure:uor-benchmark-average}, a local deployment of the Ahuora Digital Platform is able to sustain a request completion rate of 15 requests per second (from the average load profile), matching the number of requests received per second. The response time is also relatively consistent, ranging between 27 and 30 milliseconds on average. When the stress load profile is applied (30 requests per second), the average response time decreases to \textasciitilde25 milliseconds (Fig. \ref{figure:uor-benchmark-stress}). The system also continues to process requests at the request rate, with only slightly more inconsistency than the average load test. The response time decrease seen with the stress profile compared with the average profile could be the result of the API making more use of a cache layer within the system.
 
-Both response time and request rate degradation can be observed in the local spike test (Fig. \ref{figure:uor-benchmark-spike}). After reaching \textasciitilde40 requests per second, the response time rapidly increases, and the request completion rate starts to diverge from the request start rate. At 45 requests per second (RPS), the response time average increases past 100 milliseconds, and reaches tens of thousands of milliseconds as the request rate continues to increase. During the test, the request start rate is also seen degrading (between 135 and 189 seconds). This is because of the virtual user limit of 2000 set on the k6 test client, which was configured to prevent system resource starvation by the test client. The response time does not appear to recover towards the end of the test.
-
-The breakpoint test (Fig. \ref{figure:uor-benchmark-breakpoint}) also identifies this 44 RPS threshold beyond which the average response time exceeds 100 milliseconds, and the request completion rate also diverges.
-
-% Update these ^^ thresholds based on average values
 
 \subsection{Replica count}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/uor-replica-count-i1-average.png}
+    \caption{UOR response time vs. request rate graph - breakpoint load with one replica}
+    \label{figure:uor-replica-count-i1-average}
+\end{figure}
+
+Using an average load profile against a Django deployment configuration with one replica allows some differences to be observed between the average load benchmark and this cluster-bound test. While the response time of the benchmark sits between 25 and 30 milliseconds, the single replica test sees a median average response time of 35.74 milliseconds (Fig. \ref{figure:uor-replica-count-i1-average}).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/uor-replica-count-rt-comparison.png}
+    \caption{Table of median response times by replica count, average load}
+    \label{figure:uor-replica-count-rt-comparison}
+\end{figure}
+
+This higher response time average is consistent with any number of replicas (as seen in Fig. \ref{figure:uor-replica-count-rt-comparison}) when average load is applied. The simple explanation for this difference is the use of TLS in the HTTPS connections used between the test client and the cluster, which may take between 5 and 10 milliseconds per request. Unencrypted HTTP is used to access the local deployment, so less work is required to establish a connection. As well as this, the 5 millisecond artificial delay added for cluster-bound requests partially accounts for this discrepancy. A similar range of averages is observed within the replica count stress tests, albeit with a larger gap between the benchmark and replica count median response times (due to the lower average achieved by the benchmark in stress tests compared with the average load tests.)
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/uor-replica-count-i4-average.png}
+    \caption{UOR response time vs. request rate graph - breakpoint load with eight replicas}
+    \label{figure:uor-replica-count-i4-average}
+\end{figure}
+
+Regardless, any tested number of Django replicas running on the cluster is able to process incoming requests as fast as they arrive (evidenced in Fig \ref{figure:uor-replica-count-i1-average} and \ref{figure:uor-replica-count-i4-average}), so there are no significant request rate differences between the benchmarks and the replica count experiments. However, where the benchmarked local deployment shows evidence of performing worse than the clustered deployment is when testing spike and breakpoint loads with more than one replica. As shown in Fig. \ref{figure:uor-replica-count-rt-comp-spike}, a replica count of one performs similar to the benchmark, where the median response time reaches almost 17,000 milliseconds. The median response times for the remaining replica counts (2, 4 and 6) are far lower, ranging from 39.89 to 42.14 milliseconds.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{figures/uor-replica-count-rt-comp-spike1.png}
+      \caption{Logarithmic scale}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{figures/uor-replica-count-rt-comp-spike2.png}
+      \caption{Linear scale}
+    \end{subfigure}
+
+    \caption{Median response times by replica count (spike load)}
+    \label{figure:uor-replica-count-rt-comp-spike}
+\end{figure}
 
 \subsection{Resource allocation and utilisation}
 
