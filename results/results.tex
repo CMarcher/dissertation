@@ -212,7 +212,7 @@ In general, a higher number of replicas allows for a higher degradation threshol
 
 Results based on a static number of replicas have been showcased, but the effect of dynamic replica auto-scaling on key system metrics is also assessed.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \begin{subfigure}{.5\textwidth}
       \centering
@@ -229,12 +229,11 @@ Results based on a static number of replicas have been showcased, but the effect
     \label{figure:uor-resource-allocation-rt-comp-spike}
 \end{figure}
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{figures/uor-rau-spike-degradation-reqs.png}
-    \caption{Degradation request rates by CPU allocation and utilisation target (spike load)}
-    \label{figure:uor-resource-allocation-deg-comp-spike}
-\end{figure}
+There are a number of response time patterns that can be observed in Fig. \ref{figure:uor-resource-allocation-rt-comp-spike}. The experiments configured to use 500 millicores of CPU per Django pod have relatively consistent response times, with the lowest median response time being 40.03 milliseconds when the target utilisation is set to 25\%. The lowest response time is, however, claimed by the 1000 millicores and 25\% utilisation combination. Within the 1000 millicore experiments, there is a clear increase in the median response time as the utilisation target is increased, rising to 62.62 milliseconds when set to 90\%.
+
+The 2000 millicore experiments perform poorly on average, save for when the target utilisation is at 25\%. Their median response times range from 355.09 to 11,585 milliseconds. The response time versus request rate graph for the worst performing configuration (2000 millicores with 90\% utilisation target) is seen in Fig. \ref{figure:uor-resource-allocation-rt-graph-i5-i11-spike} (b). It hits the degradation threshold at 46.96 started RPS, and then fails to keep up with further incoming requests. Towards the end of this test, there are missing points for the completed request rate. Since the completed request rate is based on successful requests only, this gap is explained by a period in which all requests failed. In fact, 15.16\% of requests failed with this configuration. When looking at the experiment with 1000 millicores and a 25\% utilisation target, there is a noticeable increase in the response time at the request rate peak (as previously seen in the replica count experiments), but otherwise, no signs of performance degradation are present.
+
+There are three experiments that did not encounter the 100 millisecond degradation threshold: 500 millicores with the 25\% and 50\% targets, and 1000 millicores at 25\%. All other spike load experiments experienced degradation within a range of 16.87 to 49.73 milliseconds.
 
 \begin{figure}[h]
     \centering
@@ -246,11 +245,33 @@ Results based on a static number of replicas have been showcased, but the effect
     \begin{subfigure}{.5\textwidth}
       \centering
       \includegraphics[width=\linewidth]{figures/uor-rau-i11-spike-rt-graph.png}
-      \caption{2000 CPU allocation, 75\% target utilisation}
+      \caption{2000m CPU allocation, 75\% target utilisation}
     \end{subfigure}
 
-    \caption{UOR response time vs. request rate graph (spike load)}
+    \caption{UOR response time vs. request rate graphs (spike load)}
     \label{figure:uor-resource-allocation-rt-graph-i5-i11-spike}
+\end{figure}
+
+An observation that can be made (Fig. \ref{figure:uor-resource-allocation-rt-comp-spike}) is that high utilisation targets tend to suffer from poorer response times than low targets, with this being exarcerbated when the CPU allocation is simulateneously high. There are several explanations for this. The first is that the Django API has not been configured as a multi-processing application; it does not make use of multiple cores. From this, it is plain to see why a CPU allocation of 2000 millicores results in the worst response time averages, as a utilisation target exceeding 1000 millicores (50\% of 2000 millicores) is unattainable. Secondly, the horizontal pod autoscaler has a reactive rather than predictive nature. As the load on the system increases, previously set utilisation targets are eventually exceeded, and the autoscaler responds by scheduling more replicas in an attempt to meet the target. With higher target utilisation values, individual pods receive higher loads before additional pods spread the overall load further. A higher utilisation target may eventually lead to increased response times, as each API instance attempts to serve more requests at a time, potentially more than can be sustainably handled.
+
+Another clear trend is the negative correlation between the CPU utilisation target and the maximum total requested CPU across all Django API pods. With smaller utilisation targets, the autoscaler schedules pods more frequently in response to increased load, and schedules more pods overall. This can be problematic, as the Kubernetes scheduler uses resource requests to determine whether a node has sufficient capacity to run additional pods, and with provisioning of heavily underutilised resources, nodes may be treated as at capacity, despite low actual resource usage. In this context, as depicted in Fig. \ref{figure:uor-resource-allocation-spike-cpu-allocation}, a 25\% utilisation target with 500 millicores of CPU sees up to 6000 millicores of CPU requested across all Django pods, though only 1500 millicores (1.5 cores) is used in practice based on the target.
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/uor-rau-spike-degradation-reqs.png}
+        \caption{Degradation request rates by CPU allocation and utilisation target (spike load)}
+        \label{figure:uor-resource-allocation-deg-comp-spike}
+    \end{minipage}%
+    \hspace{0.05\textwidth} % Adjust the horizontal space here
+    \begin{minipage}{.45\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{figures/uor-rau-spike-cpu-allocation.png}
+
+      \caption{CPU allocation by CPU allocation and utilisation target (spike load)}
+      \label{figure:uor-resource-allocation-spike-cpu-allocation}
+    \end{minipage}
 \end{figure}
 
 \begin{figure}[h]
