@@ -212,6 +212,54 @@ In general, a higher number of replicas allows for a higher degradation threshol
 
 Results based on a static number of replicas have been showcased, but the effect of dynamic replica auto-scaling on key system metrics is also assessed.
 
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{figures/uor-rau-spike-avg-response-time.png}
+      \caption{Logarithmic scale}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{figures/uor-rau-spike-avg-response-time-2.png}
+      \caption{Linear scale}
+    \end{subfigure}
+
+    \caption{Median response times by CPU allocation and utilisation target (spike load)}
+    \label{figure:uor-resource-allocation-rt-comp-spike}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/uor-rau-spike-degradation-reqs.png}
+    \caption{Degradation request rates by CPU allocation and utilisation target (spike load)}
+    \label{figure:uor-resource-allocation-deg-comp-spike}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{figures/uor-rau-i5-spike-rt-graph.png}
+      \caption{1000m CPU allocation, 25\% target utilisation}
+    \end{subfigure}%
+    \begin{subfigure}{.5\textwidth}
+      \centering
+      \includegraphics[width=\linewidth]{figures/uor-rau-i11-spike-rt-graph.png}
+      \caption{2000 CPU allocation, 75\% target utilisation}
+    \end{subfigure}
+
+    \caption{UOR response time vs. request rate graph (spike load)}
+    \label{figure:uor-resource-allocation-rt-graph-i5-i11-spike}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/uor-rau-i7-spike-rt-graph.png}
+    \caption{UOR response time vs. request rate graph (1000m CPU allocation, 75\% target utilisation - spike load)}
+    \label{figure:uor-resource-allocation-rt-graph-i7-spike}
+\end{figure}
+
 % \subsection{Minimum replicas}
 % \subsubsection{Average load}
 % \subsubsection{Stress load}
