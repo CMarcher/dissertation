@@ -1,0 +1,1087 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{parnas_criteria_1972}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=2c85bcbe37e2c044c00248fb912f095d}{%
+           family={Parnas},
+           familyi={P\bibinitperiod},
+           given={D.\bibnamedelimi L.},
+           giveni={D\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \strng{namehash}{2c85bcbe37e2c044c00248fb912f095d}
+      \strng{fullhash}{2c85bcbe37e2c044c00248fb912f095d}
+      \strng{fullhashraw}{2c85bcbe37e2c044c00248fb912f095d}
+      \strng{bibnamehash}{2c85bcbe37e2c044c00248fb912f095d}
+      \strng{authorbibnamehash}{2c85bcbe37e2c044c00248fb912f095d}
+      \strng{authornamehash}{2c85bcbe37e2c044c00248fb912f095d}
+      \strng{authorfullhash}{2c85bcbe37e2c044c00248fb912f095d}
+      \strng{authorfullhashraw}{2c85bcbe37e2c044c00248fb912f095d}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper discusses modularization as a mechanism for improving the flexibility and comprehensibility of a system while allowing the shortening of its development time. The effectiveness of a “modularization” is dependent upon the criteria used in dividing the system into modules. A system design problem is presented and both a conventional and unconventional decomposition are described. It is shown that the unconventional decompositions have distinct advantages for the goals outlined. The criteria used in arriving at the decompositions are discussed. The unconventional decomposition, if implemented with the conventional assumption that a module consists of one or more subroutines, will be less efficient in most cases. An alternative approach to implementation which does not have this effect is sketched.}
+      \field{day}{1}
+      \field{issn}{0001-0782}
+      \field{journaltitle}{Communications of the {ACM}}
+      \field{month}{12}
+      \field{number}{12}
+      \field{shortjournal}{Commun. {ACM}}
+      \field{title}{On the criteria to be used in decomposing systems into modules}
+      \field{urlday}{23}
+      \field{urlmonth}{4}
+      \field{urlyear}{2024}
+      \field{volume}{15}
+      \field{year}{1972}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{1053\bibrangedash 1058}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1145/361598.361623
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/calebarcher/Zotero/storage/P4FE2TYR/Parnas - 1972 - On the criteria to be used in decomposing systems .pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://dl.acm.org/doi/10.1145/361598.361623
+      \endverb
+      \verb{url}
+      \verb https://dl.acm.org/doi/10.1145/361598.361623
+      \endverb
+      \keyw{modularity,{KWIC} index,modules,software,software design,software engineering}
+    \endentry
+    \entry{sifakis_framework_2005}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{hash=e7f6ebdcc2af8d00ca0afe2ff8a608e1}{%
+           family={Sifakis},
+           familyi={S\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{e7f6ebdcc2af8d00ca0afe2ff8a608e1}
+      \strng{fullhash}{e7f6ebdcc2af8d00ca0afe2ff8a608e1}
+      \strng{fullhashraw}{e7f6ebdcc2af8d00ca0afe2ff8a608e1}
+      \strng{bibnamehash}{e7f6ebdcc2af8d00ca0afe2ff8a608e1}
+      \strng{authorbibnamehash}{e7f6ebdcc2af8d00ca0afe2ff8a608e1}
+      \strng{authornamehash}{e7f6ebdcc2af8d00ca0afe2ff8a608e1}
+      \strng{authorfullhash}{e7f6ebdcc2af8d00ca0afe2ff8a608e1}
+      \strng{authorfullhashraw}{e7f6ebdcc2af8d00ca0afe2ff8a608e1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{We present an overview of results developed mainly at Verimag, by the author and his colleagues, on a framework for component-based construction, characterized by the following: the behavior of atomic components is represented by transition systems; components are built from a set of atomic components by using "glue" operators; for each component, it is possible to separate its behavior from its structure, due to specific properties of glue operators. We show an instance of this framework, which combines two independent classes of glue operators, interaction models and priorities. The combination of interaction models and priorities is expressive enough to encompass heterogeneous interaction and execution. We show that separation between behavior and structure is instrumental for correctness-by-construction. Finally, we discuss new research problems related to a structure-dependent notion of expressiveness.}
+      \field{booktitle}{Third {IEEE} International Conference on Software Engineering and Formal Methods ({SEFM}'05)}
+      \field{eventtitle}{Third {IEEE} International Conference on Software Engineering and Formal Methods ({SEFM}'05)}
+      \field{month}{9}
+      \field{note}{{ISSN}: 2160-7656}
+      \field{title}{A framework for component-based construction}
+      \field{urlday}{23}
+      \field{urlmonth}{4}
+      \field{urlyear}{2024}
+      \field{year}{2005}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{293\bibrangedash 299}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1109/SEFM.2005.3
+      \endverb
+      \verb{file}
+      \verb IEEE Xplore Abstract Record:/Users/calebarcher/Zotero/storage/TEGAZYYK/1575919.html:text/html;IEEE Xplore Full Text PDF:/Users/calebarcher/Zotero/storage/Y2747PBL/Sifakis - 2005 - A framework for component-based construction.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://ieeexplore.ieee.org/abstract/document/1575919
+      \endverb
+      \verb{url}
+      \verb https://ieeexplore.ieee.org/abstract/document/1575919
+      \endverb
+      \keyw{Java,Programming,Algebra,Design engineering,Mathematical model,Middleware,Software design,Software standards,Standards development,Unified modeling language}
+    \endentry
+    \entry{bridges_revisiting_2007}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{hash=15398e48b66036a836246cbd6e0d442c}{%
+           family={Bridges},
+           familyi={B\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod}}}%
+        {{hash=6310ce207f9071a911c813406d0f357f}{%
+           family={Vachharajani},
+           familyi={V\bibinitperiod},
+           given={Neil},
+           giveni={N\bibinitperiod}}}%
+        {{hash=dcdf69a1733da173c54c1c5716e88b98}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Yun},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=484e3183518a8f9b93df65296a9b334f}{%
+           family={Jablin},
+           familyi={J\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod}}}%
+        {{hash=8883e786f7ba9602c28940e5f3dc0201}{%
+           family={August},
+           familyi={A\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{ae2716eae13c8639515a3a17a52b3663}
+      \strng{fullhash}{a59b906835cf5ae12febbe6d92aa3ecb}
+      \strng{fullhashraw}{a59b906835cf5ae12febbe6d92aa3ecb}
+      \strng{bibnamehash}{a59b906835cf5ae12febbe6d92aa3ecb}
+      \strng{authorbibnamehash}{a59b906835cf5ae12febbe6d92aa3ecb}
+      \strng{authornamehash}{ae2716eae13c8639515a3a17a52b3663}
+      \strng{authorfullhash}{a59b906835cf5ae12febbe6d92aa3ecb}
+      \strng{authorfullhashraw}{a59b906835cf5ae12febbe6d92aa3ecb}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Single-threaded programming is already considered a complicated task. The move to multi-threaded programming only increases the complexity and cost involved in software development due to rewriting legacy code, training of the programmer, increased debugging of the program, and efforts to avoid race conditions, deadlocks, and other problems associated with parallel programming. To address these costs, other approaches, such as automatic thread extraction, have been explored. Unfortunately, the amount of parallelism that has been automatically extracted is generally insufficient to keep many cores busy. This paper argues that this lack of parallelism is not an intrinsic limitation of the sequential programming model, but rather occurs for two reasons. First, there exists no framework for automatic thread extraction that brings together key existing state-of-the-art compiler and hardware techniques. This paper shows that such a framework can yield scalable parallelization on several {SPEC} {CINT}2000 benchmarks. Second, existing sequential programming languages force programmers to define a single legal program outcome, rather than allowing for a range of legal outcomes. This paper shows that natural extensions to the sequential programming model enable parallelization for the remainder of the {SPEC} {CINT}2000 suite. Our experience demonstrates that, by changing only 60 source code lines, all of the C benchmarks in the {SPEC} {CINT}2000 suite were parallelizable by automatic thread extraction. This process, constrained by the limits of modern optimizing compilers, yielded a speedup of 454\% on these applications.}
+      \field{booktitle}{40th Annual {IEEE}/{ACM} International Symposium on Microarchitecture ({MICRO} 2007)}
+      \field{eventtitle}{40th Annual {IEEE}/{ACM} International Symposium on Microarchitecture ({MICRO} 2007)}
+      \field{month}{12}
+      \field{note}{{ISSN}: 2379-3155}
+      \field{title}{Revisiting the Sequential Programming Model for Multi-Core}
+      \field{urlday}{17}
+      \field{urlmonth}{4}
+      \field{urlyear}{2024}
+      \field{year}{2007}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{69\bibrangedash 84}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1109/MICRO.2007.20
+      \endverb
+      \verb{file}
+      \verb IEEE Xplore Abstract Record:/Users/calebarcher/Zotero/storage/ZDGSG6N5/4408246.html:text/html;IEEE Xplore Full Text PDF:/Users/calebarcher/Zotero/storage/J2EEMZXC/Bridges et al. - 2007 - Revisiting the Sequential Programming Model for Mu.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://ieeexplore.ieee.org/abstract/document/4408246
+      \endverb
+      \verb{url}
+      \verb https://ieeexplore.ieee.org/abstract/document/4408246
+      \endverb
+      \keyw{Costs,Parallel programming,Computer languages,Debugging,Hardware,Law,Legal factors,Programming profession,System recovery,Yarn}
+    \endentry
+    \entry{xu_four_2009}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=62b6be7d1cb1fe8fa9bb3c3b79f32e5f}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Zhiwei},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=729bb8ac52186361ab9867bed7d4a9b6}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Yongqiang},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=4a5c69e514f00961901616047782d0d6}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Wei},
+           giveni={W\bibinitperiod}}}%
+        {{hash=4d52683cd5b092b1c37cb3f33dcf4fb8}{%
+           family={Zha},
+           familyi={Z\bibinitperiod},
+           given={Li},
+           giveni={L\bibinitperiod}}}%
+      }
+      \strng{namehash}{fca19b2c79a98dbb0273d74894c7380d}
+      \strng{fullhash}{af57666aa17a13016a3cc3f89d585332}
+      \strng{fullhashraw}{af57666aa17a13016a3cc3f89d585332}
+      \strng{bibnamehash}{af57666aa17a13016a3cc3f89d585332}
+      \strng{authorbibnamehash}{af57666aa17a13016a3cc3f89d585332}
+      \strng{authornamehash}{fca19b2c79a98dbb0273d74894c7380d}
+      \strng{authorfullhash}{af57666aa17a13016a3cc3f89d585332}
+      \strng{authorfullhashraw}{af57666aa17a13016a3cc3f89d585332}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1673-7350, 1673-7466}
+      \field{journaltitle}{Frontiers of Computer Science in China}
+      \field{langid}{english}
+      \field{month}{9}
+      \field{number}{3}
+      \field{shortjournal}{Front. Comput. Sci. China}
+      \field{title}{Four styles of parallel and net programming}
+      \field{urlday}{28}
+      \field{urlmonth}{4}
+      \field{urlyear}{2024}
+      \field{volume}{3}
+      \field{year}{2009}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{290\bibrangedash 301}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1007/s11704-009-0028-0
+      \endverb
+      \verb{file}
+      \verb s11704-009-0028-0.pdf:/Users/calebarcher/Zotero/storage/GFD2VX3I/s11704-009-0028-0.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb http://link.springer.com/10.1007/s11704-009-0028-0
+      \endverb
+      \verb{url}
+      \verb http://link.springer.com/10.1007/s11704-009-0028-0
+      \endverb
+    \endentry
+    \entry{goldberg_survey_1974}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=1ba1863f72bd96fc6a4013073ea74931}{%
+           family={Goldberg},
+           familyi={G\bibinitperiod},
+           given={Robert\bibnamedelima P.},
+           giveni={R\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{1ba1863f72bd96fc6a4013073ea74931}
+      \strng{fullhash}{1ba1863f72bd96fc6a4013073ea74931}
+      \strng{fullhashraw}{1ba1863f72bd96fc6a4013073ea74931}
+      \strng{bibnamehash}{1ba1863f72bd96fc6a4013073ea74931}
+      \strng{authorbibnamehash}{1ba1863f72bd96fc6a4013073ea74931}
+      \strng{authornamehash}{1ba1863f72bd96fc6a4013073ea74931}
+      \strng{authorfullhash}{1ba1863f72bd96fc6a4013073ea74931}
+      \strng{authorfullhashraw}{1ba1863f72bd96fc6a4013073ea74931}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0018-9162}
+      \field{journaltitle}{Computer}
+      \field{langid}{english}
+      \field{month}{6}
+      \field{number}{6}
+      \field{shortjournal}{Computer}
+      \field{title}{Survey of virtual machine research}
+      \field{urlday}{25}
+      \field{urlmonth}{4}
+      \field{urlyear}{2024}
+      \field{volume}{7}
+      \field{year}{1974}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{34\bibrangedash 45}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1109/MC.1974.6323581
+      \endverb
+      \verb{file}
+      \verb Goldberg - 1974 - Survey of virtual machine research.pdf:/Users/calebarcher/Zotero/storage/C7GS5LNZ/Goldberg - 1974 - Survey of virtual machine research.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb http://ieeexplore.ieee.org/document/6323581/
+      \endverb
+      \verb{url}
+      \verb http://ieeexplore.ieee.org/document/6323581/
+      \endverb
+    \endentry
+    \entry{whitaker_denali_2001}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=4a4ce63e8f68baa231cecef99e920d3a}{%
+           family={Whitaker},
+           familyi={W\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+        {{hash=90e9859338485f3e12fcd5dd78c8a475}{%
+           family={Shaw},
+           familyi={S\bibinitperiod},
+           given={Marianne},
+           giveni={M\bibinitperiod}}}%
+        {{hash=d59aa1c67ab15da2b3703ceba48d96e5}{%
+           family={Gribble},
+           familyi={G\bibinitperiod},
+           given={Steven\bibnamedelima D},
+           giveni={S\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \strng{namehash}{e28ff50ce7ecec09590c2f7cc42bf848}
+      \strng{fullhash}{92a63be17484e778ed5314e409848a24}
+      \strng{fullhashraw}{92a63be17484e778ed5314e409848a24}
+      \strng{bibnamehash}{92a63be17484e778ed5314e409848a24}
+      \strng{authorbibnamehash}{92a63be17484e778ed5314e409848a24}
+      \strng{authornamehash}{e28ff50ce7ecec09590c2f7cc42bf848}
+      \strng{authorfullhash}{92a63be17484e778ed5314e409848a24}
+      \strng{authorfullhashraw}{92a63be17484e778ed5314e409848a24}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The goal of Denali is to safely execute many independent, untrusted server applications on a single physical machine. This would enable any developer to inject a new service into third-party Internet infrastructure; for example, dynamic content generation code could be introduced into content-delivery networks or caching systems. We believe that virtual machine monitors ({VMMs}) are ideally suited to this application domain. A {VMM} provides strong isolation by default, since one virtual machine cannot directly name a resource in another. In addition, {VMMs} defer the implementation of high-level abstractions to guest {OSs}, which greatly simpliﬁes the kernel and avoids “layer-below” attacks. The main challenge in using a {VMM} for this application domain is in scaling the number of concurrent virtual machines that can simultaneously execute on it.}
+      \field{langid}{english}
+      \field{title}{Denali: Lightweight Virtual Machines for Distributed and Networked Applications}
+      \field{year}{2001}
+      \field{dateera}{ce}
+      \verb{file}
+      \verb Whitaker et al. - Denali Lightweight Virtual Machines for Distribut.pdf:/Users/calebarcher/Zotero/storage/LCRKASB6/Whitaker et al. - Denali Lightweight Virtual Machines for Distribut.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{pietri_mapping_2017}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=085415f8f4a18ef6dd8a89c60f24f243}{%
+           family={Pietri},
+           familyi={P\bibinitperiod},
+           given={Ilia},
+           giveni={I\bibinitperiod}}}%
+        {{hash=9927df7ebd087a3bb950fe5413a16212}{%
+           family={Sakellariou},
+           familyi={S\bibinitperiod},
+           given={Rizos},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{a7cbc55157883556e30fce32a4c97f7c}
+      \strng{fullhash}{015cd7c225130cdef373b8e7cf09c365}
+      \strng{fullhashraw}{015cd7c225130cdef373b8e7cf09c365}
+      \strng{bibnamehash}{015cd7c225130cdef373b8e7cf09c365}
+      \strng{authorbibnamehash}{015cd7c225130cdef373b8e7cf09c365}
+      \strng{authornamehash}{a7cbc55157883556e30fce32a4c97f7c}
+      \strng{authorfullhash}{015cd7c225130cdef373b8e7cf09c365}
+      \strng{authorfullhashraw}{015cd7c225130cdef373b8e7cf09c365}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Cloud computing enables users to provision resources on demand and execute applications in a way that meets their requirements by choosing virtual resources that fit their application resource needs. Then, it becomes the task of cloud resource providers to accommodate these virtual resources onto physical resources. This problem is a fundamental challenge in cloud computing as resource providers need to map virtual resources onto physical resources in a way that takes into account the providers’ optimization objectives. This article surveys the relevant body of literature that deals with this mapping problem and how it can be addressed in different scenarios and through different objectives and optimization techniques. The evaluation aspects of different solutions are also considered. The article aims at both identifying and classifying research done in the area adopting a categorization that can enhance understanding of the problem.}
+      \field{day}{30}
+      \field{issn}{0360-0300, 1557-7341}
+      \field{journaltitle}{{ACM} Computing Surveys}
+      \field{langid}{english}
+      \field{month}{9}
+      \field{number}{3}
+      \field{shortjournal}{{ACM} Comput. Surv.}
+      \field{shorttitle}{Mapping Virtual Machines onto Physical Machines in Cloud Computing}
+      \field{title}{Mapping Virtual Machines onto Physical Machines in Cloud Computing: A Survey}
+      \field{urlday}{25}
+      \field{urlmonth}{4}
+      \field{urlyear}{2024}
+      \field{volume}{49}
+      \field{year}{2017}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{1\bibrangedash 30}
+      \range{pages}{30}
+      \verb{doi}
+      \verb 10.1145/2983575
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/calebarcher/Zotero/storage/YJX7ESCF/Pietri and Sakellariou - 2017 - Mapping Virtual Machines onto Physical Machines in.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://dl.acm.org/doi/10.1145/2983575
+      \endverb
+      \verb{url}
+      \verb https://dl.acm.org/doi/10.1145/2983575
+      \endverb
+    \endentry
+    \entry{merchan_computer-aided_2016}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=e2e89c848efbfe5ac96d4ffce5253f96}{%
+           family={Merchan},
+           familyi={M\bibinitperiod},
+           given={Victor\bibnamedelima Alejandro},
+           giveni={V\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=a0c95c3982bc404dcb93dcdd63f6a10a}{%
+           family={Esche},
+           familyi={E\bibinitperiod},
+           given={Erik},
+           giveni={E\bibinitperiod}}}%
+        {{hash=3f1c0de2ef768bb72bc7a905dedc1766}{%
+           family={Fillinger},
+           familyi={F\bibinitperiod},
+           given={Sandra},
+           giveni={S\bibinitperiod}}}%
+        {{hash=26bc58d00a081120e03dd78f80c10b48}{%
+           family={Tolksdorf},
+           familyi={T\bibinitperiod},
+           given={Gregor},
+           giveni={G\bibinitperiod}}}%
+        {{hash=fa18cc4f332962da662e4c7838fd63a9}{%
+           family={Wozny},
+           familyi={W\bibinitperiod},
+           given={Günter},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{7b27730bb84b94984ccf6a9f2c3b0c28}
+      \strng{fullhash}{d683ac27555d3789f225d89805dc74dc}
+      \strng{fullhashraw}{d683ac27555d3789f225d89805dc74dc}
+      \strng{bibnamehash}{d683ac27555d3789f225d89805dc74dc}
+      \strng{authorbibnamehash}{d683ac27555d3789f225d89805dc74dc}
+      \strng{authornamehash}{7b27730bb84b94984ccf6a9f2c3b0c28}
+      \strng{authorfullhash}{d683ac27555d3789f225d89805dc74dc}
+      \strng{authorfullhashraw}{d683ac27555d3789f225d89805dc74dc}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{In process systems engineering models are used for many applications, e.g., process simulation, optimization or control. Various types of models such as shortcut or rigorous models exist. An exchange and reuse thereof is highly desirable, but seldom performed. This article focuses on current approaches for developing and solving process models in specific instances for different applications. A close look will be made at the state of the art in modeling, simulation, and optimization software. Requirements for future software developments are derived to reduce the development and synthesis costs for new chemical engineering processes. The web-based modeling, simulation, and optimization environment {MOSAIC} is taken as an example to highlight current developments towards collaborative computer-aided engineering work.}
+      \field{issn}{1522-2640}
+      \field{journaltitle}{Chemie Ingenieur Technik}
+      \field{langid}{english}
+      \field{note}{\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1002/cite.201500099}
+      \field{number}{1}
+      \field{title}{Computer-Aided Process and Plant Development. A Review of Common Software Tools and Methods and Comparison against an Integrated Collaborative Approach}
+      \field{urlday}{16}
+      \field{urlmonth}{4}
+      \field{urlyear}{2024}
+      \field{volume}{88}
+      \field{year}{2016}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{50\bibrangedash 69}
+      \range{pages}{20}
+      \verb{doi}
+      \verb 10.1002/cite.201500099
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/calebarcher/Zotero/storage/EV985568/Merchan et al. - 2016 - Computer-Aided Process and Plant Development. A Re.pdf:application/pdf;Snapshot:/Users/calebarcher/Zotero/storage/ZB6YB4SL/cite.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://onlinelibrary.wiley.com/doi/abs/10.1002/cite.201500099
+      \endverb
+      \verb{url}
+      \verb https://onlinelibrary.wiley.com/doi/abs/10.1002/cite.201500099
+      \endverb
+      \keyw{Equation-oriented simulation,Flowsheeting,Process synthesis,Process systems engineering}
+    \endentry
+    \entry{pistikopoulos_process_2021}{article}{}{}
+      \name{author}{9}{}{%
+        {{hash=3415a93982426df48e8babf08e426092}{%
+           family={Pistikopoulos},
+           familyi={P\bibinitperiod},
+           given={E\bibnamedelima N},
+           giveni={E\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+        {{hash=c858d7a2916fe8bc98729d83ad37c986}{%
+           family={Barbosa-Povoa},
+           familyi={B\bibinithyphendelim P\bibinitperiod},
+           given={Ana},
+           giveni={A\bibinitperiod}}}%
+        {{hash=476344bb30d750e92d349d76126fa921}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Jay\bibnamedelima H},
+           giveni={J\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=68b80670de5e989d799bf009471e72cf}{%
+           family={Misener},
+           familyi={M\bibinitperiod},
+           given={Ruth},
+           giveni={R\bibinitperiod}}}%
+        {{hash=e56363c80535b637a5107d1a3708edf7}{%
+           family={Mitsos},
+           familyi={M\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=03b44033f7db2ada6deaec09f49b6fd0}{%
+           family={Reklaitis},
+           familyi={R\bibinitperiod},
+           given={G\bibnamedelima V},
+           giveni={G\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+        {{hash=6ec28182efefe4fd1a0e6fa3dc9b77c5}{%
+           family={Venkatasubramanian},
+           familyi={V\bibinitperiod},
+           given={V},
+           giveni={V\bibinitperiod}}}%
+        {{hash=25d7afe062fcfc6297b7a7cf93c21f51}{%
+           family={You},
+           familyi={Y\bibinitperiod},
+           given={Fengqi},
+           giveni={F\bibinitperiod}}}%
+        {{hash=647173fce1f4e0e88e7713a54df306fc}{%
+           family={Gani},
+           familyi={G\bibinitperiod},
+           given={Rafiqul},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{06f176cd5f41869674219f016dae3680}
+      \strng{fullhash}{928e9a5c574d856b60fefbf6071603f8}
+      \strng{fullhashraw}{928e9a5c574d856b60fefbf6071603f8}
+      \strng{bibnamehash}{06f176cd5f41869674219f016dae3680}
+      \strng{authorbibnamehash}{06f176cd5f41869674219f016dae3680}
+      \strng{authornamehash}{06f176cd5f41869674219f016dae3680}
+      \strng{authorfullhash}{928e9a5c574d856b60fefbf6071603f8}
+      \strng{authorfullhashraw}{928e9a5c574d856b60fefbf6071603f8}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Process Systems Engineering ({PSE}) is the scientific discipline of integrating scales and components describing the behavior of a physicochemical system, via mathematical modelling, data analytics, design, optimization and control. {PSE} provides the ‘glue’ within scientific chemical engineering, and offers a scientific basis and computational tools towards addressing contemporary and future challenges such as in energy, environment, the ‘industry of tomorrow’ and sustainability. This perspective article offers a guide towards the next generation of {PSE} developments by looking at its history, core competencies, current status and ongoing trends.}
+      \field{day}{1}
+      \field{issn}{0098-1354}
+      \field{journaltitle}{Computers \& Chemical Engineering}
+      \field{month}{4}
+      \field{shortjournal}{Computers \& Chemical Engineering}
+      \field{shorttitle}{Process systems engineering – {<}i{>}The generation next?}
+      \field{title}{Process systems engineering – \textit{The generation next?}}
+      \field{urlday}{25}
+      \field{urlmonth}{4}
+      \field{urlyear}{2024}
+      \field{volume}{147}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{107252}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.compchemeng.2021.107252
+      \endverb
+      \verb{file}
+      \verb Pistikopoulos et al. - 2021 - Process systems engineering – The generation ne.pdf:/Users/calebarcher/Zotero/storage/VAKY2DPA/Pistikopoulos et al. - 2021 - Process systems engineering – The generation ne.pdf:application/pdf;ScienceDirect Snapshot:/Users/calebarcher/Zotero/storage/P5JTN2U2/S0098135421000302.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S0098135421000302
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S0098135421000302
+      \endverb
+      \keyw{Process systems engineering,Optimization,Control,Modelling,Supply chain,Synthesis-design}
+    \endentry
+    \entry{biegler_recent_2014}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=b4cf951e494c45f4de462df04ec3b5df}{%
+           family={Biegler},
+           familyi={B\bibinitperiod},
+           given={Lorenz\bibnamedelima T.},
+           giveni={L\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+      }
+      \strng{namehash}{b4cf951e494c45f4de462df04ec3b5df}
+      \strng{fullhash}{b4cf951e494c45f4de462df04ec3b5df}
+      \strng{fullhashraw}{b4cf951e494c45f4de462df04ec3b5df}
+      \strng{bibnamehash}{b4cf951e494c45f4de462df04ec3b5df}
+      \strng{authorbibnamehash}{b4cf951e494c45f4de462df04ec3b5df}
+      \strng{authornamehash}{b4cf951e494c45f4de462df04ec3b5df}
+      \strng{authorfullhash}{b4cf951e494c45f4de462df04ec3b5df}
+      \strng{authorfullhashraw}{b4cf951e494c45f4de462df04ec3b5df}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Systematic optimization strategies are essential in process design, operations and control. This study provides a concise overview of recent advances in process optimization, with a particular focus on nonlinear programming. Here, derivative-free, {SQP}, reduced gradient, and interior point methods are described. Moreover, state of the art problem formulations and modeling environments are described, and contrasted with popular process simulation tools. Finally research directions are identified for future trends in multi-scale optimization within large-scale equation-oriented optimization environments.}
+      \field{issn}{1522-2640}
+      \field{journaltitle}{Chemie Ingenieur Technik}
+      \field{langid}{english}
+      \field{note}{\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1002/cite.201400033}
+      \field{number}{7}
+      \field{title}{Recent Advances in Chemical Process Optimization}
+      \field{urlday}{17}
+      \field{urlmonth}{4}
+      \field{urlyear}{2024}
+      \field{volume}{86}
+      \field{year}{2014}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{943\bibrangedash 952}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1002/cite.201400033
+      \endverb
+      \verb{file}
+      \verb Biegler - 2014 - Recent Advances in Chemical Process Optimization.pdf:/Users/calebarcher/Zotero/storage/PUS3XHCF/Biegler - 2014 - Recent Advances in Chemical Process Optimization.pdf:application/pdf;Snapshot:/Users/calebarcher/Zotero/storage/KFQ44BUA/cite.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://onlinelibrary.wiley.com/doi/abs/10.1002/cite.201400033
+      \endverb
+      \verb{url}
+      \verb https://onlinelibrary.wiley.com/doi/abs/10.1002/cite.201400033
+      \endverb
+      \keyw{Complementarity problems,Multi-scale modeling,Nonlinear programming,Optimization,Process simulation}
+    \endentry
+    \entry{martin_sustainable_2022}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=57ca12e40b15c01dd5ec9d5ee2837e0a}{%
+           family={Martin},
+           familyi={M\bibinitperiod},
+           given={Mariano},
+           giveni={M\bibinitperiod}}}%
+        {{hash=647173fce1f4e0e88e7713a54df306fc}{%
+           family={Gani},
+           familyi={G\bibinitperiod},
+           given={Rafiqul},
+           giveni={R\bibinitperiod}}}%
+        {{hash=85312f146e9285fe09433db91bdfca85}{%
+           family={Mujtaba},
+           familyi={M\bibinitperiod},
+           given={Iqbal\bibnamedelima M.},
+           giveni={I\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{2bcb2e82ec84971e5396ea7367e7f34a}
+      \strng{fullhash}{7210459df219205641a31a3a494d483b}
+      \strng{fullhashraw}{7210459df219205641a31a3a494d483b}
+      \strng{bibnamehash}{7210459df219205641a31a3a494d483b}
+      \strng{authorbibnamehash}{7210459df219205641a31a3a494d483b}
+      \strng{authornamehash}{2bcb2e82ec84971e5396ea7367e7f34a}
+      \strng{authorfullhash}{7210459df219205641a31a3a494d483b}
+      \strng{authorfullhashraw}{7210459df219205641a31a3a494d483b}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{In this perspective paper, we present challenges and opportunities that the chemical, biochemical and related industries pose to the process system engineering community to help deliver reliable and novel sustainable alternatives. More specifically, we highlight the need for a systems approach where model-based sustainable process synthesis, design, and analysis serve as opportunities to tackle the challenges. Three technology areas (interlinked to each other) that impact the sustainability of earth, namely, chemical processes linked with {CO}2 capture and utilization, biorefineries and water desalination are selected to highlight our views as well as the need for further development of computer-aided tools to efficiently solve the large and complex mathematical systems the problems represent. Analysis of these problems and their reported solutions indicate that opportunity exists for development of a new class of model-based methods and tools and their integration with the currently available ones to obtain the desired sustainability development goals.}
+      \field{day}{1}
+      \field{issn}{2352-5509}
+      \field{journaltitle}{Sustainable Production and Consumption}
+      \field{month}{3}
+      \field{shortjournal}{Sustainable Production and Consumption}
+      \field{shorttitle}{Sustainable process synthesis, design, and analysis}
+      \field{title}{Sustainable process synthesis, design, and analysis: Challenges and opportunities}
+      \field{urlday}{25}
+      \field{urlmonth}{4}
+      \field{urlyear}{2024}
+      \field{volume}{30}
+      \field{year}{2022}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{686\bibrangedash 705}
+      \range{pages}{20}
+      \verb{doi}
+      \verb 10.1016/j.spc.2022.01.002
+      \endverb
+      \verb{file}
+      \verb Martin et al. - 2022 - Sustainable process synthesis, design, and analysi.pdf:/Users/calebarcher/Zotero/storage/JUY7D3NX/Martin et al. - 2022 - Sustainable process synthesis, design, and analysi.pdf:application/pdf;ScienceDirect Snapshot:/Users/calebarcher/Zotero/storage/KZQW5HFS/S2352550922000021.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S2352550922000021
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S2352550922000021
+      \endverb
+      \keyw{Computer-aided methods,Model-based software tools,Renewable resources,Sustainable process design,Systems solution approach}
+    \endentry
+    \entry{weyns_engineering_2018}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=35e3a091dadcb8fdebaf15b5322878a9}{%
+           family={Weyns},
+           familyi={W\bibinitperiod},
+           given={Danny},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{35e3a091dadcb8fdebaf15b5322878a9}
+      \strng{fullhash}{35e3a091dadcb8fdebaf15b5322878a9}
+      \strng{fullhashraw}{35e3a091dadcb8fdebaf15b5322878a9}
+      \strng{bibnamehash}{35e3a091dadcb8fdebaf15b5322878a9}
+      \strng{authorbibnamehash}{35e3a091dadcb8fdebaf15b5322878a9}
+      \strng{authornamehash}{35e3a091dadcb8fdebaf15b5322878a9}
+      \strng{authorfullhash}{35e3a091dadcb8fdebaf15b5322878a9}
+      \strng{authorfullhashraw}{35e3a091dadcb8fdebaf15b5322878a9}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{9}
+      \field{note}{Pages: 2}
+      \field{title}{Engineering {Self}-{Adaptive} {Software} {Systems} – {An} {Organized} {Tour}}
+      \field{year}{2018}
+      \verb{doi}
+      \verb 10.1109/FAS-W.2018.00012
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:C\:\\Users\\ca107\\Zotero\\storage\\97LGU423\\Weyns - 2018 - Engineering Self-Adaptive Software Systems – An Or.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{filho_self-adaptive_2021}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{hash=6e203fd0fa43390358786e0edd2a6e8b}{%
+           family={Filho},
+           familyi={F\bibinitperiod},
+           given={Messias},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3193acf9c27c681b9b15913ea6fba563}{%
+           family={Pimentel},
+           familyi={P\bibinitperiod},
+           given={Eliaquim},
+           giveni={E\bibinitperiod}}}%
+        {{hash=02a0fc51304d4874cda1b4b1ceba2b78}{%
+           family={Pereira},
+           familyi={P\bibinitperiod},
+           given={Wellington},
+           giveni={W\bibinitperiod}}}%
+        {{hash=adf3b69dc9134ee956be4116a8a654a4}{%
+           family={Maia},
+           familyi={M\bibinitperiod},
+           given={Paulo\bibnamedelimb Henrique\bibnamedelima M.},
+           giveni={P\bibinitperiod\bibinitdelim H\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=a96c46de46e4db2496ee19319646959d}{%
+           family={Cortés},
+           familyi={C\bibinitperiod},
+           given={Mariela\bibnamedelima I.},
+           giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+      }
+      \strng{namehash}{c3b014b383b05de0cecf064b0cb62aff}
+      \strng{fullhash}{18c5aeb8d768332a37e20a0c83a94181}
+      \strng{fullhashraw}{18c5aeb8d768332a37e20a0c83a94181}
+      \strng{bibnamehash}{18c5aeb8d768332a37e20a0c83a94181}
+      \strng{authorbibnamehash}{18c5aeb8d768332a37e20a0c83a94181}
+      \strng{authornamehash}{c3b014b383b05de0cecf064b0cb62aff}
+      \strng{authorfullhash}{18c5aeb8d768332a37e20a0c83a94181}
+      \strng{authorfullhashraw}{18c5aeb8d768332a37e20a0c83a94181}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Microservices have become popular in the past few years, attracting the interest of both academia and industry. Despite of its benefits, this new architectural style still poses important challenges, such as resilience, performance and evolution. Self-adaptation techniques have been applied recently as an alternative to solve or mitigate those problems. However, due to the range of quality attributes that affect microservice architectures, many different self-adaptation strategies can be used. Thus, to understand the state-of-the-art of the use of self-adaptation techniques and mechanisms in microservice-based systems, this work conducted a systematic mapping, in which 21 primary studies were analyzed considering qualitative and quantitative research questions. The results show that most studies focus on the Monitor phase (28.57\%) of the adaptation control loop, address the self-healing property (23.81\%), apply a reactive adaptation strategy (80.95\%) in the system infrastructure level (47.62\%) and use a centralized approach (38.10\%). From those, it was possible to propose some research directions to fill existing gaps.}
+      \field{booktitle}{2021 International Symposium on Software Engineering for Adaptive and Self-Managing Systems ({SEAMS})}
+      \field{eventtitle}{2021 International Symposium on Software Engineering for Adaptive and Self-Managing Systems ({SEAMS})}
+      \field{month}{5}
+      \field{note}{{ISSN}: 2157-2321}
+      \field{title}{Self-Adaptive Microservice-based Systems - Landscape and Research Opportunities}
+      \field{urlday}{24}
+      \field{urlmonth}{4}
+      \field{urlyear}{2024}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{167\bibrangedash 178}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1109/SEAMS51251.2021.00030
+      \endverb
+      \verb{file}
+      \verb IEEE Xplore Abstract Record:/Users/calebarcher/Zotero/storage/APM9C7LU/9462040.html:text/html;IEEE Xplore Full Text PDF:/Users/calebarcher/Zotero/storage/ANG7U3RH/Filho et al. - 2021 - Self-Adaptive Microservice-based Systems - Landsca.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://ieeexplore.ieee.org/document/9462040
+      \endverb
+      \verb{url}
+      \verb https://ieeexplore.ieee.org/document/9462040
+      \endverb
+      \keyw{Computer architecture,Systematics,Industries,Monitoring,Microservice architecture,Software engineering,Adaptive systems,Resilience,Self-adaptation,Systematic study mapping}
+    \endentry
+    \entry{figueira_developing_2024}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=974a4ef9fd722af1dff662b29998c04b}{%
+           family={Figueira},
+           familyi={F\bibinitperiod},
+           given={João},
+           giveni={J\bibinitperiod}}}%
+        {{hash=a08399e847cfeb3d201115640590906d}{%
+           family={Coutinho},
+           familyi={C\bibinitperiod},
+           given={Carlos},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{ffffbff74a43e4f59c5aedfb82dd062f}
+      \strng{fullhash}{5235cd77951ead8b3eecdd7183fd4960}
+      \strng{fullhashraw}{5235cd77951ead8b3eecdd7183fd4960}
+      \strng{bibnamehash}{5235cd77951ead8b3eecdd7183fd4960}
+      \strng{authorbibnamehash}{5235cd77951ead8b3eecdd7183fd4960}
+      \strng{authornamehash}{ffffbff74a43e4f59c5aedfb82dd062f}
+      \strng{authorfullhash}{5235cd77951ead8b3eecdd7183fd4960}
+      \strng{authorfullhashraw}{5235cd77951ead8b3eecdd7183fd4960}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The modern development approaches are establishing microservices and cloud computing as major trends to benefit the technological community. However, these technologies are often prone to multiple issues regarding parallel development by numerous parties, delivery strategies and resource allocation. This paper proposes a novel architecture for developing self-adaptive microservices, using Kubernetes through the Azure Container Apps, including a strategy that will complement the architecture to enhance the development of microservices and aiming to achieve a solution that allows the readers to deliver software faster, with more resilience, more scalable, and more cost-effective, depending as low as possible from human intervention to maintain and scale. The author will apply the acquired knowledge to propose and test an architecture for a real use case scenario, building a notifications service integrated with a complex cloud-based web application system.}
+      \field{day}{1}
+      \field{issn}{1877-0509}
+      \field{journaltitle}{Procedia Computer Science}
+      \field{month}{1}
+      \field{series}{5th International Conference on Industry 4.0 and Smart Manufacturing ({ISM} 2023)}
+      \field{shortjournal}{Procedia Computer Science}
+      \field{title}{Developing self-adaptive microservices}
+      \field{urlday}{24}
+      \field{urlmonth}{4}
+      \field{urlyear}{2024}
+      \field{volume}{232}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{264\bibrangedash 273}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1016/j.procs.2024.01.026
+      \endverb
+      \verb{file}
+      \verb ScienceDirect Snapshot:/Users/calebarcher/Zotero/storage/SEA2Q4GJ/S1877050924000267.html:text/html;Submitted Version:/Users/calebarcher/Zotero/storage/YCJ85XJU/Figueira and Coutinho - 2024 - Developing self-adaptive microservices.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S1877050924000267
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S1877050924000267
+      \endverb
+      \keyw{Kubernetes,Cloud computing,Microservices architecture,Azure Container Apps,Self-adaptive systems}
+    \endentry
+    \entry{cheng_performance_2008}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{hash=da62d5e668c8b7b14a9ca2b3fd61a179}{%
+           family={Cheng},
+           familyi={C\bibinitperiod},
+           given={Xiaoqing},
+           giveni={X\bibinitperiod}}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=4de0f4299be144a65505410b920314e7}{%
+           family={Kounev},
+           familyi={K\bibinitperiod},
+           given={Samuel},
+           giveni={S\bibinitperiod}}}%
+        {{hash=d683605f72467dfa26e77f926f92e46d}{%
+           family={Gorton},
+           familyi={G\bibinitperiod},
+           given={Ian},
+           giveni={I\bibinitperiod}}}%
+        {{hash=ff8f0814acf884df7ec247520947d5d6}{%
+           family={Sachs},
+           familyi={S\bibinitperiod},
+           given={Kai},
+           giveni={K\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Berlin, Heidelberg}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{da62d5e668c8b7b14a9ca2b3fd61a179}
+      \strng{fullhash}{da62d5e668c8b7b14a9ca2b3fd61a179}
+      \strng{fullhashraw}{da62d5e668c8b7b14a9ca2b3fd61a179}
+      \strng{bibnamehash}{da62d5e668c8b7b14a9ca2b3fd61a179}
+      \strng{authorbibnamehash}{da62d5e668c8b7b14a9ca2b3fd61a179}
+      \strng{authornamehash}{da62d5e668c8b7b14a9ca2b3fd61a179}
+      \strng{authorfullhash}{da62d5e668c8b7b14a9ca2b3fd61a179}
+      \strng{authorfullhashraw}{da62d5e668c8b7b14a9ca2b3fd61a179}
+      \strng{editorbibnamehash}{ce829b148185a5f3b966551649767835}
+      \strng{editornamehash}{7adf24c1f33ab3f8a5d8b28334a6d0de}
+      \strng{editorfullhash}{ce829b148185a5f3b966551649767835}
+      \strng{editorfullhashraw}{ce829b148185a5f3b966551649767835}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Performance and scalability are essential characteristics of large-scale enterprise software. This paper presents the technologies behind the processes implemented at {SAP}. During the specification, design and implementation phases, {PerformanceDesign} Patterns are used as guidelines, which also define the Key Performance Indicators ({KPI}) for performance and scalability tests. With proven scalability of software applications, {SAP}’s Sizing Process enables the transformation of business requirements into hardware requirements. It also allows {SAP}’s customers to flexibly configure their specific applications, on operating system ({OS}), database ({DB}), and hardware platforms of their choice. The {SAP} Standard Application Benchmarks are developed and executed to test the scalability in extremely high load situations and to verify the sizing statements from the sizing process. They are also used for {SAP} internal regression tests across releases, and by {SAP}’s hardware partners for platform tests. Besides the response time centric performance testing, analysis and optimization, {SAP} follows a {KPI}-focused approach which permits potential performance problems to be reliably predicted already in simple and easy-to-execute tests. The {SAP} {NetWeaver} Portal Benchmark is used to demonstrate how to conduct performance and scalability tests using single user tests and load tests. We will introduce the {KPIs} used for Java memory analysis and optimization. Finally, this paper shows how the results of these tests can be used in hardware sizing in customer implementation projects.}
+      \field{booktitle}{Performance Evaluation: Metrics, Models and Benchmarks}
+      \field{isbn}{978-3-540-69814-2}
+      \field{langid}{english}
+      \field{title}{Performance, Benchmarking and Sizing in Developing Highly Scalable Enterprise Software}
+      \field{year}{2008}
+      \field{dateera}{ce}
+      \field{pages}{174\bibrangedash 190}
+      \range{pages}{17}
+      \verb{doi}
+      \verb 10.1007/978-3-540-69814-2_12
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/calebarcher/Zotero/storage/6BJ3JHVG/Cheng - 2008 - Performance, Benchmarking and Sizing in Developing.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{aydemir_building_2022}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=c762c7a5d0958ae5dba157cb946bce80}{%
+           family={Aydemir},
+           familyi={A\bibinitperiod},
+           given={Fikri},
+           giveni={F\bibinitperiod}}}%
+        {{hash=ea4da1501bcd5bf8df21c87a080d0d20}{%
+           family={Başçiftçi},
+           familyi={B\bibinitperiod},
+           given={Fatih},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{1c7361bc3ca0ba25d0cf0ff872902b18}
+      \strng{fullhash}{1851a8af8d7b405f7aa84a394ca8170d}
+      \strng{fullhashraw}{1851a8af8d7b405f7aa84a394ca8170d}
+      \strng{bibnamehash}{1851a8af8d7b405f7aa84a394ca8170d}
+      \strng{authorbibnamehash}{1851a8af8d7b405f7aa84a394ca8170d}
+      \strng{authornamehash}{1c7361bc3ca0ba25d0cf0ff872902b18}
+      \strng{authorfullhash}{1851a8af8d7b405f7aa84a394ca8170d}
+      \strng{authorfullhashraw}{1851a8af8d7b405f7aa84a394ca8170d}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Core banking systems lie in the heart of any bank today as they embrace all services that are provided by banks to carry out their day-to-day business. Examples of these services can be customer management, transaction processing, payment processing, auditing, and statistical reporting. Software infrastructure in such core banking systems was built based on the monolith system architecture, which was a common practice in building distributed software systems earlier before the advent of cloud computing. Monolith architecture incorporates all core banking services into a single, fully integrated piece of software where the codebase can become overwhelmingly complex and incomprehensible over time. As a consequence, it becomes rather challenging to make bug fixes and feature additions in monolith core banking systems and serious maintenance costs can arise to adapt to new technologies. Microservices Architecture ({MSA}) has emerged in line with the developments in virtualization technologies and cloud computing (e.g., Kubernetes, Containerization) as a software engineering practice to overcome the problems that can be encountered in monolith software. In this paper, a system architecture for an {MSA}-based core banking system was proposed by particularly taking performance efficiency into account. The justification of this architecture was made through a real-world case study in a commercial bank having a large-scale legacy core banking monolith. Load tests were applied to both this legacy core banking monolith and the new {MSA}-based banking system that reflects our architectural proposal and average request throughputs and response times were analyzed in both systems to demonstrate how better the proposed architecture performs in comparison to its monolith counterpart concerning performance-efficiency.}
+      \field{day}{2}
+      \field{issn}{1572-9184}
+      \field{journaltitle}{Journal of Grid Computing}
+      \field{langid}{english}
+      \field{month}{11}
+      \field{number}{4}
+      \field{shortjournal}{J Grid Computing}
+      \field{title}{Building a Performance Efficient Core Banking System Based on the Microservices Architecture}
+      \field{urlday}{21}
+      \field{urlmonth}{3}
+      \field{urlyear}{2024}
+      \field{volume}{20}
+      \field{year}{2022}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{37}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1007/s10723-022-09624-z
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/Users/calebarcher/Zotero/storage/S8AP3YIG/Aydemir and Başçiftçi - 2022 - Building a Performance Efficient Core Banking Syst.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/s10723-022-09624-z
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/s10723-022-09624-z
+      \endverb
+      \keyw{Core Banking System,Microservices Architecture,Monolith Architecture,Performance-Efficiency}
+    \endentry
+    \entry{lee2021idaes}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{hash=70c3bd2e4e1f9175abb64728a5eb7098}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+        {{hash=d2d1593ef163c476a4f132617f804283}{%
+           family={Ghouse},
+           familyi={G\bibinitperiod},
+           given={Jaffer\bibnamedelima H},
+           giveni={J\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=814a235df8b920aabdde81018864d815}{%
+           family={Eslick},
+           familyi={E\bibinitperiod},
+           given={John\bibnamedelima C},
+           giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=fe4330a8eb741cb60176c01236ec044f}{%
+           family={Laird},
+           familyi={L\bibinitperiod},
+           given={Carl\bibnamedelima D},
+           giveni={C\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=56a744a01a7a808030086b81758a6a4c}{%
+           family={Siirola},
+           familyi={S\bibinitperiod},
+           given={John\bibnamedelima D},
+           giveni={J\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=135b68aa396a5ec64c75ace385ae236e}{%
+           family={Zamarripa},
+           familyi={Z\bibinitperiod},
+           given={Miguel\bibnamedelima A},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=33a335e9d1139fd3b19e94f7d27752bf}{%
+           family={Gunter},
+           familyi={G\bibinitperiod},
+           given={Dan},
+           giveni={D\bibinitperiod}}}%
+        {{hash=cf3e79207be16afe8935886fd9c0310a}{%
+           family={Shinn},
+           familyi={S\bibinitperiod},
+           given={John\bibnamedelima H},
+           giveni={J\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=acc53a07cd7fda836bfbe2cd9f28028c}{%
+           family={Dowling},
+           familyi={D\bibinitperiod},
+           given={Alexander\bibnamedelima W},
+           giveni={A\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=9ac38fa8b7858dcead823c14429eadcd}{%
+           family={Bhattacharyya},
+           familyi={B\bibinitperiod},
+           given={Debangsu},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{796b4c4c1e57bf54f1ad898f884257dc}
+      \strng{fullhash}{9508ce5de12d826152b4fc5a0256d1c8}
+      \strng{fullhashraw}{9508ce5de12d826152b4fc5a0256d1c8}
+      \strng{bibnamehash}{796b4c4c1e57bf54f1ad898f884257dc}
+      \strng{authorbibnamehash}{796b4c4c1e57bf54f1ad898f884257dc}
+      \strng{authornamehash}{796b4c4c1e57bf54f1ad898f884257dc}
+      \strng{authorfullhash}{9508ce5de12d826152b4fc5a0256d1c8}
+      \strng{authorfullhashraw}{9508ce5de12d826152b4fc5a0256d1c8}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of advanced manufacturing and processing}
+      \field{number}{3}
+      \field{title}{The IDAES process modeling framework and model library—Flexibility for process simulation and optimization}
+      \field{volume}{3}
+      \field{year}{2021}
+      \field{pages}{e10095}
+      \range{pages}{-1}
+    \endentry
+    \entry{bynum2021pyomo}{book}{}{}
+      \name{author}{8}{}{%
+        {{hash=fe133d5b71e8c526ed170e6242dd8844}{%
+           family={Bynum},
+           familyi={B\bibinitperiod},
+           given={Michael\bibnamedelima L.},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=6a817c5a7f736cf5013ed3734d97eb44}{%
+           family={Hackebeil},
+           familyi={H\bibinitperiod},
+           given={Gabriel\bibnamedelima A.},
+           giveni={G\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=bc874e1729ad1546f15a50a5d5781523}{%
+           family={Hart},
+           familyi={H\bibinitperiod},
+           given={William\bibnamedelima E.},
+           giveni={W\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=fe4330a8eb741cb60176c01236ec044f}{%
+           family={Laird},
+           familyi={L\bibinitperiod},
+           given={Carl\bibnamedelima D.},
+           giveni={C\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=0b6126c51097470676f5fc7c4fbf9894}{%
+           family={Nicholson},
+           familyi={N\bibinitperiod},
+           given={Bethany\bibnamedelima L.},
+           giveni={B\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=56a744a01a7a808030086b81758a6a4c}{%
+           family={Siirola},
+           familyi={S\bibinitperiod},
+           given={John\bibnamedelima D.},
+           giveni={J\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=674ebab2a61476821ad4b4bcd4d9c524}{%
+           family={Watson},
+           familyi={W\bibinitperiod},
+           given={Jean-Paul},
+           giveni={J\bibinithyphendelim P\bibinitperiod}}}%
+        {{hash=1968e7a8afc0a428e3d702a8ee380e73}{%
+           family={Woodruff},
+           familyi={W\bibinitperiod},
+           given={David\bibnamedelima L.},
+           giveni={D\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{1319c5d6a1754893dacf6941fb1a653e}
+      \strng{fullhash}{d5d06442967f23e5ab296ef9fc179116}
+      \strng{fullhashraw}{d5d06442967f23e5ab296ef9fc179116}
+      \strng{bibnamehash}{1319c5d6a1754893dacf6941fb1a653e}
+      \strng{authorbibnamehash}{1319c5d6a1754893dacf6941fb1a653e}
+      \strng{authornamehash}{1319c5d6a1754893dacf6941fb1a653e}
+      \strng{authorfullhash}{d5d06442967f23e5ab296ef9fc179116}
+      \strng{authorfullhashraw}{d5d06442967f23e5ab296ef9fc179116}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Pyomo - Optimization Modeling in Python, 3rd Edition}
+      \field{year}{2021}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

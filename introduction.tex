@@ -1,20 +1,31 @@
 \chapter{Introduction}
 \label{sec:intro}
 
-\section{Project aim}
-
 The process systems engineering (PSE) field is critical to enabling detailed analysis and optimisation of industrial chemical processes. Despite this, modernisation of accessible optimisation software tools and techniques has slowed, with most software-based analysis performed via desktop applications constrained by the resource limits of local systems. More efficient optimisation techniques are available, but require software programming proficiency not held by the common process engineer. The cloud computing sector has significantly advanced the ability to run and deliver software in a distributed fashion, without requiring clients to procure and maintain physical hardware. Cloud-native software systems are better positioned to respond to dynamic usage and allocate computational resources efficiently based on need. There has been minimal convergence of the PSE and cloud computing fields.
 
-This work details and evaluates the development of a cloud-native PSE software platform (the Ahuora Digital Platform) on a physical Kubernetes cluster, comparing the performance of the different software components running on the cluster versus a local deployment of said components.
+\section{Project aim}
 
-% Is it worth stating some new research questions? I didn't actually create new research questions at the end of the literature review lol
+A process simulation platform, called the Ahuora Digital Twin Platform, or the Ahuora platform, is being actively developed to resolve the aforementioned challenges. As a platform that makes use of a mathematical optimisation engine to conduct chemical process modelling, simulation and optimisation, there is a need for access to computational resources that exceed the limits of standalone devices. With a goal of being able to perform process analysis in parallel, and provide this functionality to multiple users, the ability to dynamically respond to demand to handle variable system load is critical.
 
-\noindent\textbf{Research questions:}
+This project sets out to construct and configure such a distributed environment using Kubernetes, a containerisation platform, and do so on top of a physical Raspberry Pi computing cluster. To assess how this transition allows the platform to conduct more analysis, a load testing tool is used to simulate varying request load levels. The results of these tests are analysed, providing insight into the behaviour of a distributed system within this specific platform context.
+
+Ultimately, this project aims to answer two core questions:
+
 \begin{itemize}[itemsep=0pt]
     \item How can a local deployment of an existing process simulation platform be migrated to a distributed environment?
-    \item What impact on application performance does a distributed environment have?
+    \item What impact on the platform's performance does a distributed environment have?
 \end{itemize}
 
-\section{Background}
-
 \section{Summary of literature review}
+
+Early software architectures made use of modular designs in order to improve the ability of engineering teams to collectively contribute to the development of software systems \cite{parnas_criteria_1972}. This view of modularity shifted from single-unit software systems to the distributed computational world \cite{sifakis_framework_2005}.
+
+Parallel computing eventually became available on retail computing systems with the arrival of the multi-core processor \cite{bridges_revisiting_2007}. In general, the parallel computing space has broadened to include several styles of parallelism \cite{xu_four_2009}.
+
+Distributed computing makes heavy use of virtualised environments \cite{goldberg_survey_1974}, including virtual machines, which were created to tackle the limitations of creating software for specific architectures and operating systems \cite{whitaker_denali_2001}. Their use as part of software service networks developed due to their ability to simplify the deployment process. Containers enable this deployment ease without the overhead of virtualised operating systems \cite{pietri_mapping_2017}.
+
+Process simulation tools are available in two primary forms: interactive user interfaces \cite{merchan_computer-aided_2016}, and mathematical process modelling \cite{pistikopoulos_process_2021}. User-interface based simulation tools lack the ability to solve some large-scale modelling problems \cite{biegler_recent_2014}, while mathematical process modelling techniques require expertise that is not held by industrial process engineers \cite{martin_sustainable_2022} 
+
+Self-adaptive systems are systems capable of dynamically adjusting themselves based on changes in the external environment \cite{weyns_engineering_2018}. Self-adaptation has been applied to microservice architectures \cite{filho_self-adaptive_2021}. Kubernetes is a modern container orchestration system that is used to deploy microservices \cite{figueira_developing_2024}.
+
+In testing these systems, empirical performance testing techniques are used \cite{cheng_performance_2008}, which attempt to refer to KPIs (Key Performance Indicators) when assessing whether the target system is meeting performance requirements. Load testing is one such empirical testing technique \cite{aydemir_building_2022}, which simulates user activity at various scales to examine system performance.

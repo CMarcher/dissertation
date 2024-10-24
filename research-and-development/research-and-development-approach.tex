@@ -2,22 +2,20 @@
 
 \section{Kubernetes distribution}
 
-With the intent of using Kubernetes as the distributed systems platform to build the Ahuora Digital Platform on top of, a specific distribution of Kubernetes still needs to be chosen. In general, engineers can choose between managed versions of Kubernetes, which are controlled by cloud providers (such as Amazon Web Services or Microsoft Azure), or self-managed versions, which require more up-front effort to provision a functioning cluster.
+With the intent of using Kubernetes as the distributed system platform to build the Ahuora Digital Platform on top of, a specific distribution of Kubernetes still needs to be chosen. In general, engineers can choose between managed versions of Kubernetes, which are controlled by cloud providers (such as Amazon Web Services or Microsoft Azure), or self-managed versions, which require more up-front effort to provision a functioning cluster.
 
 Managed versions of Kubernetes do not currently suit the needs of the platform at this time, as there are high ongoing costs associated with accessing a managed cluster service, as well as the usage of cloud-based virtual machines. Moreover, cloud service pricing can be less predictable and controllable than that of a physical environment where all the hardware part of the system is controlled directly. With a set of Raspberry Pis available for running a cluster, a Kubernetes distribution suited to a self-hosted approach is ideal. Another requirement for the distribution choice is for its installation and set-up process to be compatible with an airgapped networking environment (see \ref{subsection:airgapping}).
 
 There were three distributions of Kubernetes considered for selection: minikube\footnote{minikube: \url{https://minikube.sigs.k8s.io/docs/}}, MicroK8s\footnote{MicroK8s: \url{https://microk8s.io/}} and K3s\footnote{K3s: \url{https://k3s.io/}}. minikube is oriented towards local Kubernetes cluster development, and enabling a quick cluster set-up process. MicroK8s presents itself as the easiest lightweight Kubernetes distribution to install, with an emphasis on simple addon integration for expansion of cluster behaviour and functionality. K3s specifically targets edge and small-scale computing environments, and is optimised for ARM CPU architectures.
 
-minikube, while a useful tool, was discounted from consideration for the bare metal, multi-node Raspberry Pi cluster environment. Its reputation is that of a development tool, and not for running production workloads. MicroK8s is a more viable option for production environments compared to minikube, and this is also true of K3s. However, three key factors made K3s the final choice: its explicit curation towards an ARM64 CPU architecture, convenient packages for an airgapped installation, and an officially-supported Ansible installation template.
+Minikube, while a useful tool, was discounted from consideration for the bare metal, multi-node Raspberry Pi cluster environment. Its reputation is that of a development tool, and not for running production workloads. MicroK8s is a more viable option for production environments compared to minikube, and this is also true of K3s. However, three key factors made K3s the final choice: its explicit curation towards an ARM64 CPU architecture, convenient packages for an airgapped installation, and an officially-supported Ansible installation template.
 
-\section{Kubernetes cluster architecture}
-
-\section{Performance analysis experiment components}
+\section{Performance test experiment set up}
 \subsection{Controlled environment}
 
 Difficulties were encountered obtaining consistent results when conducting ad hoc performance analysis experiments. Because of the usage of a 4G router for providing internet access to the Raspberry Pi cluster, highly variable bandwidth and latency conditions were encountered. One performance test with increasing load up to sixty requests per second might encounter exponentially increasing response times half-way during the test, while another repetition would see this occur three-quarters through the test. 
 
-Another problem caused by relying on 4G mobile network infrastructure is the upper bandwidth limitation. The 4G router in use has (in its physical position in a lab) a peak download speed of \textasciitilde50.0 Mbit/second (\textasciitilde6.25 Mbyte/second), and an upload speed of \textasciitilde20.0 Mbit/second (\textasciitilde2.5 Mbyte/second). With increasing request rates during performance tests, a bandwidth bottleneck can be encountered, with the cluster unable to serve data because of a lack of sufficient capacity. Though perfect bandwidth and latency stability cannot be expected on the internet, mobile networks are especially prone to instability, and inhibit the ability to replicate a standard environment for applications deployed to ``the cloud'', i.e. a datacentre with high bandwidth capacity. This is exarcerbated by the usage of Cloudflare Tunnel on the cluster to enable external access, which provides a lower bound on maximum bandwidth than if the router was directly accessible via the internet.
+Another problem caused by relying on 4G mobile network infrastructure is the upper bandwidth limitation. The 4G router in use has (in its physical position in a lab) a peak download speed of \textasciitilde50.0 Mbit/second (\textasciitilde6.25 Mbyte/second), and an upload speed of \textasciitilde20.0 Mbit/second (\textasciitilde2.5 Mbyte/second). With increasing request rates during performance tests, a bandwidth bottleneck can be encountered, with the cluster unable to serve data because of a lack of sufficient capacity. Though perfect bandwidth and latency stability cannot be expected on the internet, mobile networks are especially prone to instability, and inhibit the ability to replicate a standard environment for applications deployed to ``the cloud'', i.e. a datacentre with high bandwidth capacity. This is exacerbated by the usage of Cloudflare Tunnel on the cluster to enable external access, which provides a lower bound on maximum bandwidth than if the router was directly accessible via the internet.
 
 To conduct consistent load-tests that provide a higher signal to noise ratio, a stable cloud infrastructure environment was simulated. Load-tests were performed from the ingress node, sending requests to the Kubernetes control node over the LAN (local area network) provided by the network switch. An Auckland-based data centre environment will be replicated, with an expected latency of 5 miiliseconds from an in-country client device to the data centre. This latency will be simulated via the \verb|tc| Linux command as depicted in Listings \ref{lst:pre-test-latency} and \ref{lst:post-test-latency}. The \verb|tc| command allows the traffic travelling via a particular network interface to have artificial constraints added, such as with bandwidth and latency. Prior to every test, 5 milliseconds of latency was added, and then removed after each test.
 
@@ -98,7 +96,7 @@ Various load profiles are used to assess system performance and dynamics. This a
     \label{table:test-api-endpoints}
 \end{tabularx}
 
-The unit operation retrieval endpoint interacts with the Django API server and the PostgreSQL database. The flowsheet solving endpoint interacts with both of these, as well as the IDAES service. The specific load profiles used against either endpoint will differ, as these endpoints have dissimilar baseline response times. The time required to make a single unit operation retrieval request is between 20 and 40 milliseconds, while a solve request may take 500 to 1000 milliseconds.
+The unit operation retrieval endpoint interacts with the Django API server and the PostgreSQL database. The flowsheet solving endpoint interacts with both of these, and the IDAES service. The specific load profiles used against either endpoint will differ, as these endpoints have dissimilar baseline response times. The time required to make a single unit operation retrieval request is between 20 and 40 milliseconds, while a solve request may take 500 to 1000 milliseconds.
 
 % Perhaps get a smoke test done at 1 request per second for both endpoints.
 
@@ -166,7 +164,7 @@ This load profile will test the system against a flat load profile, or a fixed n
 
 \subsubsection{Stress testing}
 
-The stress testing load profile will assess the system at an ``above-average'' load, which will be set at 200\% of the previously outlined average load values (Table \ref{table:test-average-load-plan}). The goal is to determine what performance degradation (if any) happens when the system experiences load that is still within an expected range.
+The stress testing load profile will assess the system at an ``above-average'' load, which will be set at 200\% of the previously outlined average load values (Table \ref{table:test-load-plan}). The goal is to determine what performance degradation (if any) happens when the system experiences load that is still within an expected range.
 
 \subsubsection{Spike testing}
 
@@ -174,7 +172,7 @@ Spike tests will test how the system responds to a rapidly increasing, very high
 
 \subsubsection{Breakpoint testing}
 
-These load profiles will linearly increase the number of requests made against the system per second to some extremely high threshold. This will allow the ``breakpoint'' of the system to be identified, or the point at which system performance either rapidly deterioates or completely collapses. These tests will run for a maximum of ten minutes. To prevent tests for running far beyond the breakpoint unnecessarily, a threshold will be defined for each breakpoint load profile variant, which will mandate that the number of virtual users (VUs) does not exceed 100. If this threshold is exceeded, then the test will cease.
+These load profiles will linearly increase the number of requests made against the system per second to some extremely high threshold. This will allow the ``breakpoint'' of the system to be identified, or the point at which system performance either rapidly deteriorates or completely collapses. These tests will run for a maximum of ten minutes. To prevent tests for running far beyond the breakpoint unnecessarily, a threshold will be defined for each breakpoint load profile variant, which will mandate that the number of virtual users (VUs) does not exceed 100. If this threshold is exceeded, then the test will cease.
 
 \subsection{Horizontal scaling policies}
 
@@ -244,31 +242,3 @@ These tests will assess the impact of the permutations of three CPU resource all
     \caption{Parameters for resource allocation and target utilisation tests (UOR and FS)}
     \label{table:test-resource-allocation}
 \end{tabularx}
-
-% \subsubsection{Minimum replica count}
-
-% The minimum replica count is a property of the \verb|HorizontalPodAutoscaler|, which defines the scaling policies to be adhered to by the control plane's autoscaling controller. The minimum replica count, as plainly indicated, sets a requirement for the smallest number of pod replicas that are allowed to run, regardless of whether the target resource utilisation threshold is being met. Tests will use a CPU allocation of 500 millicores and target CPU utilisation of 50\% (for both the Django and IDAES pods). Though these may not necessarily be the optimal parameter choices, the purpose of this test is to observe the general response time and throughput effect when combining a baseline replica count and auto-scaling.
-
-% \noindent\textbf{Load profiles used:} Spike, breakpoint
-
-% \begin{tabularx}{\textwidth}{|X|X|}
-%     \hline
-%     \textbf{Test iteration} & \textbf{Minimum replica count (Django)}  \\ \hline
-%     1 & 1 \\ \hline
-%     2 & 2 \\ \hline
-%     3 & 4 \\ \hline
-
-%     \caption{Parameters for UOR minimum replica count tests}
-%     \label{table:test-min-replica-count-uor}
-% \end{tabularx}
-
-% \begin{tabularx}{\textwidth}{|X|X|}
-%     \hline
-%     \textbf{Test iteration} & \textbf{Minimum replica count (Django and IDAES)}  \\ \hline
-%     1 & 1 \\ \hline
-%     2 & 2 \\ \hline
-%     3 & 4 \\ \hline
-
-%     \caption{Parameters for FS minimum replica count tests}
-%     \label{table:test-min-replica-count-fs}
-% \end{tabularx}

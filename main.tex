@@ -24,6 +24,8 @@
 \usepackage{needspace}
 \usepackage{ltablex} % Allows for multi-page tables with automatic width adjustment
 \usepackage{ragged2e}
+\usepackage[toc,page]{appendix}
+\usepackage{pdfpages}
 
 \keepXColumns
 
@@ -80,17 +82,43 @@ isbn=false
 
 \maketitle
 
-\setcounter{page}{2}
+\setcounter{page}{1}
 
 \begin{abstract}
+
+Modern chemical process simulation software systems have performance limitations caused by primarily operating on standalone machines. Using containerisation techniques, an existing process simulation platform is transitioned from a locally operating system to a distributed, Kubernetes-based system. A load-testing procedure is outlined for comparing the performance and system behaviours of a distributed deployment of the platform. Analysis is conducted on the system test results, comparing how various software scaling configurations react to different load profiles. The analysis reports that significant performance improvements have been obtained, but bottlenecks still exist that need addressing to further improve maximum system throughput.
 
 \end{abstract}
 
 \begin{acknowledgements}
 
+\noindent I would like to give thanks to my supervisors, Mark Apperley and Tim Walmsley, for their guidance and support over the course of the capstone project, which has been invaluable in the completion of the many unfamiliar tasks that made up this project.
+
+\vspace{0.5cm}
+
+\noindent Thanks to my fellow software engineers at Ahuora: Shean Danes Aton, Bert Downs, Ethan MacLeod, Mahaki Leech and Alma Walmsley. Working with you over the course of this year has been an exciting, opportunity-filled, stressful, and pleasurable experience. Whether it was through moments of laughter or through frustration, I am glad to have had you all as co-workers.
+
+\vspace{0.5cm}
+
+\noindent My deep appreciation goes to Stephen Burroughs, who gave up much of his time (including thesis-writing time) providing much-needed help in moments of sheer panic and confusion, and continually over the course of this year.
+
+\vspace{0.5cm}
+
+\noindent To the master of taking breaks, thanks to Lana Kong for her consistent effort in getting us overworked software engineers to the tea room, as well as her general support and encouragement.
+
+\vspace{0.5cm}
+
+\noindent My wider thanks is given to the rest of the Ahuora team that I have spent time with this year: Elsa Klinac, Ahuroa Leech, Ben Lincoln, Keegan Hall, Mostafa Pasandideh, Matthew Taylor, Safiya Al Habsi, Parami Dilruk, Isaac Severinsen, Daniel Chong, Jack O'Leary, Catherine Muldoon, and Aleeza Adeel.
+
+\vspace{0.5cm}
+
+\noindent Finally, I'd like to thank my parents. Although they mostly have no idea what I have been doing all year or what this project is about, they have provided critical support for me throughout my university education, and my broader life, and they have helped in getting me to where I am now.
+
 \end{acknowledgements}
 
 \begin{authorship-declaration}
+
+\noindent I, Caleb Archer, declare that the content of this work is of my own personal authorship, unless otherwise stated.
 
 \end{authorship-declaration}
 
@@ -113,6 +141,25 @@ isbn=false
 
 \chapter{Conclusion and Future Work}
 
+A process simulation platform, called the Ahuora Digital Twin Platform, has been migrated to a Kubernetes-based distributed computing system. Individual software components, including the Django API, the IDAES service, the front-end and a database have been configured to run on andn communicate within the cluster. A load-testing procedure was created, using a series of load profiles to assess system performance. Performance analysis was conducted, identifying the impact of different software scaling configurations on system performance.
+
+\vspace{1cm}
+
+\noindent\textbf{Future work}
+
+\noindent There are several areas of the work showcased in this document that can be improved upon. First, performance improvements may be obtained by decoupling the Django API from the IDAES service, integrating a message queue to asynchronously send solve requests and receive the results. From here, customised metrics can be used to allow event-based scaling, and thereby the IDAES service will be scaled not based on CPU usage, but instead the number of tasks waiting in a message queue. Work is needed to identify what is creating the bottleneck that prevents system throughput from increasing more than it currently is. Finally, the security of the cluster could be substantially improved: strict inter-pod and namespace policies should be put in place to minimise the risk of cross-software exploitation.
+
 \printbibliography
+
+\begin{appendices}
+\chapter{Literature review}
+
+The literature review is attached and begins on the next page.
+\clearpage
+
+\includepdf[pages={-}]{ENGEN582_Literature_Review-3.pdf}
+\end{appendices}
+
+
 
 \end{document}
